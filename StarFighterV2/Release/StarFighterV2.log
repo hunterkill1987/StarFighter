@@ -1,0 +1,42 @@
+﻿Build started 2015-09-19 07:32:58.
+     1>Project "D:\Projects\StarFighterV2\StarFighterV2\StarFighterV2.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\StarFighterV2.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ID:\Projects\StarFighterV2\StarFighterV2\allegro\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\StarFighterV2-Release.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Actor.cpp Emiter.cpp Engine.cpp Event.cpp Game.cpp Particle.cpp Player.cpp StarFighterV2.cpp Camera.cpp
+         Actor.cpp
+         Emiter.cpp
+         Engine.cpp
+         Event.cpp
+         Game.cpp
+         Particle.cpp
+         Player.cpp
+         StarFighterV2.cpp
+         Camera.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Projects\StarFighterV2\\build\StarFighterV2-Release.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:D:\Projects\StarFighterV2\StarFighterV2\allegro\lib "allegro-5.0.10-monolith-md.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\StarFighterV2-Release.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Projects\StarFighterV2\build\StarFighterV2-Release.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Projects\StarFighterV2\\build\StarFighterV2-Release.lib" /MACHINE:X86 Release\Actor.obj
+         Release\Emiter.obj
+         Release\Engine.obj
+         Release\Event.obj
+         Release\Game.obj
+         Release\Particle.obj
+         Release\Player.obj
+         Release\StarFighterV2.obj
+         Release\stdafx.obj
+         Release\Camera.obj
+         Generating code
+     1>d:\projects\starfighterv2\starfighterv2\event.cpp(128): warning C4715: 'Event::IsQueue' : not all control paths return a value
+     1>d:\projects\starfighterv2\starfighterv2\event.cpp(120): warning C4715: 'Event::Tick' : not all control paths return a value
+         Finished generating code
+         StarFighterV2.vcxproj -> D:\Projects\StarFighterV2\\build\StarFighterV2-Release.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Projects\StarFighterV2\\build\StarFighterV2-Release.exe;#1" /manifest "Release\StarFighterV2-Release.exe.intermediate.manifest"
+       FinalizeBuildStatus:
+         Deleting file "Release\StarFighterV2.unsuccessfulbuild".
+         Touching "Release\StarFighterV2.lastbuildstate".
+     1>Done Building Project "D:\Projects\StarFighterV2\StarFighterV2\StarFighterV2.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.97
