@@ -6,8 +6,8 @@ Actor::Actor():
 	maxHealth(0),
 	mShield(0),
 	maxShield(0),
-	name(NULL),
-	surface(NULL),
+	name(nullptr),
+	surface(nullptr),
 	m_velocity(0,0),
 	m_acceleration(0.0),
 	m_rotation(0,0),
@@ -15,43 +15,49 @@ Actor::Actor():
 {
 	
 }
+
 //Just for test;
 
-void Actor::SpawnActor(IActor* actor,Vector2 pos, Vector2 rot)
+Actor::Actor(Actor& actor):
+	mHealth(0),
+	maxHealth(0),
+	mShield(0),
+	maxShield(0),
+	name(nullptr),
+	surface(nullptr),
+	m_velocity(0, 0),
+	m_acceleration(0.0),
+	m_rotation(0, 0),
+	m_position(0, 0)
 {
-	if(actor != NULL)	
-	{
-		id = pEngine->Uniq_ID();
-		Player *player = dynamic_cast<Player *>(actor);
-		if( player != 0)
-		{
-			player->pEngine = this->pEngine;
-			player->pGame = this->pGame;
-			player->pEvent = this->pEvent;
-
-			player->SetPosition(pos);
-			player->SetRotation(rot);
-		}
-		player->maxHealth = 100;
-
-		if(player->mHealth <= 0)
-		{
-			player->mHealth = maxHealth;
-		}
-
-		player->maxShield = 100;
-
-		if(player->mShield <= 0)
-		{
-			player->mShield = maxShield;
-		}
-	}
-	actor->Init();
-	pGame->SpawnActor(actor);
+	pGame = actor.pGame;
+	pEngine = actor.pEngine;
+	pEvent = actor.pEvent;
 }
 
 void Actor::Init()
 {
+	IActor* actor = pGame->GetActorById(GetId());
+	if (actor != nullptr)
+	{
+		Player *player = dynamic_cast<Player *>(actor);
+		if (player != nullptr)
+		{
+			player->maxHealth = 100;
+
+			if (player->mHealth <= 0)
+			{
+				player->mHealth = maxHealth;
+			}
+
+			player->maxShield = 100;
+
+			if (player->mShield <= 0)
+			{
+				player->mShield = maxShield;
+			}
+		}
+	}
 
 }
 void Actor::Update(float fTime)

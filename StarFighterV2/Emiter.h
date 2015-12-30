@@ -44,6 +44,7 @@ private:
 	float				p_speed;
 	bool				p_dissolve;
 	float				p_dissolveRate;
+	float				p_spred;
 
 	std::vector<Particle*>			TParticles;
 	ParticleIterator				pit;

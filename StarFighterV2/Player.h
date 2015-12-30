@@ -12,7 +12,7 @@ private:
 	float accTime;
 
 	Camera* player_camera;
-	
+	Emiter* Player_emiter;
 	float fx;
 public:
 	
@@ -20,6 +20,7 @@ public:
 	virtual void Init();
 
 	Player(void);
+	Player(Actor &actor);
 	~Player(void);
 };
 

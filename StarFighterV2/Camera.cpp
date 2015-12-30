@@ -3,7 +3,7 @@
 
 
 Camera::Camera():
-	owner(NULL),
+owner(nullptr),
 	campos(0,0),
 	winsize(0,0)
 {
@@ -12,7 +12,7 @@ Camera::Camera():
 
 int Camera::InitCamera(IActor* actor,IEngine* pEngine)
 {
-	if(actor != NULL && actor->IsPlayer())
+	if (actor != nullptr && actor->IsPlayer())
 	{
 		owner = actor;
 		winsize = pEngine->GetScreenSize(); 
@@ -24,7 +24,7 @@ int Camera::InitCamera(IActor* actor,IEngine* pEngine)
 void Camera::UpdateCamera()
 {
 	float x,y;
-	if(owner != NULL && owner->IsPlayer())
+	if (owner != nullptr && owner->IsPlayer())
 	{
 		Vector2 ownerpos = owner->GetPosition();
 

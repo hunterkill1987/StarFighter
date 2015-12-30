@@ -2,8 +2,8 @@
 #include "Event.h"
 
 Event::Event():
-	event_queue(NULL),
-	timer(NULL),
+event_queue(nullptr),
+timer(nullptr),
 	done(false),
 	b_input(0)
 {

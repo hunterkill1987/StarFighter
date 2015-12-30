@@ -38,8 +38,8 @@ public:
 	IGame*		pGame;
 
 	Actor();
+	Actor(Actor& actor);
 	virtual ~Actor(void);
-
 	virtual void Update(float fTime);
 	
 	virtual bool IsAlive();
@@ -59,7 +59,6 @@ public:
 
 	virtual void Init();
 
-	void SpawnActor(IActor* actor,Vector2 pos, Vector2 rot);
 	void Reset();
 
 	void StartFire();

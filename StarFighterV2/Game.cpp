@@ -4,18 +4,17 @@
 #include <algorithm>
 #include <functional>
 Game::Game(void):
-	g_engine(NULL),
-	player(NULL)
+g_engine(nullptr),
+player(nullptr)
 {
 }
 
 int Game::GameInit(IEngine* engine)
 {
-	if(engine != NULL)
+	if (engine != nullptr)
 	{
 		g_engine = engine; 
 		actor = new Actor();
-		emiter = new Emiter(g_engine);
 		actor->pGame = this;
 		actor->pEngine = g_engine;
 		actor->pEvent = g_engine->GetEvent();
@@ -25,11 +24,8 @@ int Game::GameInit(IEngine* engine)
 		return 0;
 	}
 
-	if(emiter != NULL)
-		emiter->SetupParticle();
-
-	player = new Player();
-	actor->SpawnActor(player,Vector2(300,300),Vector2(1,0));
+	player = new Player(*actor);
+	SpawnActor(player,Vector2(300,300),Vector2(1,0));
 
 	return 1;
 }
@@ -44,23 +40,40 @@ void Game::Update(float fTime)
 	}
 }
 
-void Game::SpawnFX(Vector2 pos,Vector2 rot,int OwnerId)
+void Game::SpawnFX(IEmiter* iemiter, Vector2 pos, int OwnerId)
 {
-	if(OwnerId >= 0 )
+	Emiter *emiter = dynamic_cast<Emiter *>(iemiter);
+	if (emiter != nullptr)
 	{
-		emiter->SetOwner(OwnerId);
+		emiter->Init();
+		if (OwnerId >= 0)
+		{
+			emiter->SetOwner(OwnerId);
+		}
+		emiter->SetPosition(pos);
+		emiter->SetRotaion(Vector2(0.f, 1.f));
+		emiter->Init();
+		emiter->SpawnParticle();
+		SpawnActor(emiter);
 	}
-	emiter->Init(); 
-	emiter->SetPosition(pos);
-	emiter->SetRotaion(rot);
-	SpawnActor(emiter);
 }
 
-void Game::SpawnActor(IActor* actor)
+void Game::SpawnActor(IActor* actor,Vector2 pos,Vector2 rot)
 {
-	if(actor != NULL)
+	if (actor != nullptr)
 	{
-		mapActor.insert(std::pair<int,IActor*>(g_engine->Uniq_ID(),actor));
+		Actor *newActor = dynamic_cast<Actor*>(actor);
+		if (newActor != nullptr)
+		{
+			newActor->Init();
+			newActor->SetPosition(pos);
+			newActor->SetRotation(rot);
+		}
+		int id = g_engine->Uniq_ID();
+		if (id >= 0)
+		{
+			mapActor.insert(std::pair<int, IActor*>(id, actor));
+		}
 		g_engine->AddDrawActor(actor);
 	}else
 	{
@@ -75,7 +88,7 @@ IActor* Game::GetActorById(int id)
 	if(it != mapActor.end())
 		return it->second;
 	else
-		return NULL;
+		return nullptr;
 }
 
 int Game::GetActorId(IActor* actor)

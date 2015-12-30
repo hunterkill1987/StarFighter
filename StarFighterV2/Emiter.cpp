@@ -4,7 +4,7 @@
 
 Emiter::Emiter(IEngine* engine):
 	e_pos(0,0),
-	e_rot(0,0),
+	e_rot(0,1),
 	e_IsActive(false),
 	p_scale(0,0),
 	eEngine(NULL),
@@ -25,8 +25,9 @@ void Emiter::SpawnParticle()
 			(*pit)->p_pos = e_pos;
 			(*pit)->p_Life = eEngine->RandToFloat(0.f,3.0f);
 			(*pit)->p_duration = 0.1f;
-			float dir =  atan2(e_rot.GetX(),e_rot.GetY()) * 180/PI;
-			(*pit)->p_angle= eEngine->RandToFloat(-180+dir,180+dir) * PI/180;
+			//float dir =  atan2(e_rot.GetY(),e_rot.GetX()) * 180/PI;
+			float dir = 90.f;
+			(*pit)->p_angle = eEngine->RandToFloat(-p_spred + dir, p_spred + dir) * PI / 180;
 
 			(*pit)->p_rot = Vector2(sinf((*pit)->p_angle),cosf((*pit)->p_angle));
 		
@@ -41,6 +42,7 @@ void Emiter::SetupParticle()
 
 	e_capicity			= 200;
 	p_speed				= 20.0f;
+	p_spred				= 30.0f;
 	p_dissolve			= true;
 	p_dissolveRate		= 4;
 	e_IsActive			= true;
@@ -63,7 +65,7 @@ void Emiter::Init()
 			e_rot = Owner->GetRotation();
 		}
 	}
-
+	SetupParticle();
 	SpawnParticle();
 }
 

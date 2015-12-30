@@ -2,11 +2,14 @@
 #include "Player.h"
 #include "Emiter.h"
 
-Player::Player():
+Player::Player(Actor &actor):
 	Angle(0.0),
 	acc(0.0),
 	accTime(0.0)
 {
+	pGame = actor.pGame;
+	pEngine = actor.pEngine;
+	pEvent = actor.pEvent;
 }
 
 void Player::Update(float deltaTime)
@@ -68,7 +71,7 @@ void Player::Update(float deltaTime)
 	if(this->pEngine->GetTickCount() > fx && fx > 0.0)
 	{
 		fx = 0.f;
-		this->pGame->SpawnFX(this->GetPosition(),this->GetRotation(),this->pGame->GetActorId(this));
+		this->pGame->SpawnFX(Player_emiter, this->GetPosition(), -1);
 	}
 	if(player_camera != NULL)
 		player_camera->UpdateCamera();
@@ -81,12 +84,10 @@ void Player::Init()
 	
 	fx = this->pEngine->GetTickCount() + 0.7;
 	player_camera = new Camera();
-
+	Player_emiter = new Emiter(this->pEngine);
 	fprintf(stderr,"player id: %i  \n", this->GetId());
 
 	player_camera->InitCamera(this,this->pEngine);
-
-	
 }
 
 Player::~Player(void)

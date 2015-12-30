@@ -97,6 +97,12 @@ public:
 		return (x*v1.x) + (y*v1.y);
 	}
 
+	float angelToRot(float angle)
+	{
+		
+	}
 }Vector2;
+
+
 
 #endif

@@ -5,10 +5,10 @@
 #include <math.h>
 
 Engine::Engine():
-	path(NULL),
-	display(NULL),
-	mActor(NULL),
-	mEngine(NULL)
+path(nullptr),
+display(nullptr),
+mActor(nullptr),
+mEngine(nullptr)
 {
 	mEngine = this;
 	aEvent  = new Event();
@@ -65,7 +65,7 @@ int Engine::InitPath()
 void Engine::AddDrawActor(IActor* actor)
 {	
 	ALLEGRO_BITMAP *loadbitmap;
-	if( actor!= NULL)
+	if (actor != nullptr)
 	{
 		if(path)
 		{
@@ -100,14 +100,14 @@ void Engine::UpdateEngine(float deltaTime)
 	al_set_target_bitmap(buffer);
 	al_clear_to_color(al_map_rgb(0,0,0));
 
-	if( aEvent != NULL)
+	if (aEvent != nullptr)
 	{
 		TActorMap::iterator it;
 		for(it=mapActor.begin(); it!=mapActor.end(); ++it)
 		{	
 			actor = pGame->GetActorById(it->first);
 
-			if(actor != NULL)
+			if (actor != nullptr)
 			{
 				if( path)
 				{
@@ -123,11 +123,11 @@ void Engine::UpdateEngine(float deltaTime)
 						float height = al_get_bitmap_height(it->second);
 
 						double angle = atan2(rot.GetY(),rot.GetX());
-						//fprintf(stderr,"engine angle %lf \n", angle * 180/ PI); 
+						fprintf(stderr, "player angle %f %f \n", angle, angle * 180 / PI);
 						al_draw_rotated_bitmap(it->second,width/2,height/2,pos.GetX(),pos.GetY(),angle,0);
 					}
 					else
-					if(emiter != 0)
+					if (emiter != nullptr)
 					{
 						if(emiter->IsActive())
 						{
@@ -153,7 +153,7 @@ Vector2 Engine::GetActorSize(int OwnerId)
 	IActor* actor= pGame->GetActorById(OwnerId);
 
 	TActorMap::iterator it;
-	if(actor != NULL)
+	if (actor != nullptr)
 	{
 		it  = mapActor.find(OwnerId);
 		if (it != mapActor.end())
