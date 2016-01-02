@@ -10,6 +10,7 @@ private:
 	float acc;
 	float Angle;
 	float accTime;
+	float a;
 
 	Camera* player_camera;
 	Emiter* Player_emiter;

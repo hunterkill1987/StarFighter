@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include <math.h>
-#include "Vector.h"
 #include "IActor.h"
 #ifndef IEMITER_H
 #define IEMITER_H

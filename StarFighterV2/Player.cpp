@@ -10,6 +10,7 @@ Player::Player(Actor &actor):
 	pGame = actor.pGame;
 	pEngine = actor.pEngine;
 	pEvent = actor.pEvent;
+	a = 0;
 }
 
 void Player::Update(float deltaTime)
@@ -71,10 +72,15 @@ void Player::Update(float deltaTime)
 	if(this->pEngine->GetTickCount() > fx && fx > 0.0)
 	{
 		fx = 0.f;
-		this->pGame->SpawnFX(Player_emiter, this->GetPosition(), -1);
+		this->pGame->SpawnFX(Player_emiter, this->GetPosition(), this->GetId());
 	}
 	if(player_camera != NULL)
 		player_camera->UpdateCamera();
+
+	a = lerp(a, 1.f, deltaTime);
+	fprintf(stderr, "player lerp %f  \n",a);
+
+	lerp(0.f,1.f, deltaTime);
 }
 
 void Player::Init()

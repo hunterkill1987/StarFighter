@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <math.h>
-#include "Vector.h"
+#include "SMath.h"
 #ifndef IACTOR_H
 #define IACTOR_H
 

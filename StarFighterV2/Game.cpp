@@ -53,7 +53,6 @@ void Game::SpawnFX(IEmiter* iemiter, Vector2 pos, int OwnerId)
 		emiter->SetPosition(pos);
 		emiter->SetRotaion(Vector2(0.f, 1.f));
 		emiter->Init();
-		emiter->SpawnParticle();
 		SpawnActor(emiter);
 	}
 }

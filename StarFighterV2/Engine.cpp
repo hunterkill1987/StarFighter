@@ -123,7 +123,6 @@ void Engine::UpdateEngine(float deltaTime)
 						float height = al_get_bitmap_height(it->second);
 
 						double angle = atan2(rot.GetY(),rot.GetX());
-						fprintf(stderr, "player angle %f %f \n", angle, angle * 180 / PI);
 						al_draw_rotated_bitmap(it->second,width/2,height/2,pos.GetX(),pos.GetY(),angle,0);
 					}
 					else
