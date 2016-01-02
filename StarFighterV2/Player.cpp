@@ -77,7 +77,7 @@ void Player::Update(float deltaTime)
 	if(player_camera != NULL)
 		player_camera->UpdateCamera();
 
-	a = lerp(a, 1.f, deltaTime);
+	a = lerp<float>(a, 1.f, deltaTime);
 	fprintf(stderr, "player lerp %f  \n",a);
 
 	lerp(0.f,1.f, deltaTime);

@@ -103,11 +103,16 @@ public:
 	}
 }Vector2;
 
-/*
-template<typename T1, typename T2>
-T1 lerp(T1 a, T2 b, float DeltaTime);
-*/
-float lerp(float a, float b, float DeltaTime);
 
+template<typename T> T lerp(T a, T b, float DeltaTime)
+{
+	T alpha = a * (1 - DeltaTime) + b * DeltaTime;
+	return alpha;
+}
+
+template<typename T>T clamp(T x, T min, T max)
+{
+
+}
 
 #endif
