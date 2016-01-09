@@ -112,7 +112,7 @@ template<typename T> T lerp(T a, T b, float DeltaTime)
 
 template<typename T>T clamp(T x, T min, T max)
 {
-
+	return x < min ? min : (x > max ? b : max);
 }
 
 #endif

@@ -45,7 +45,6 @@ void Game::SpawnFX(IEmiter* iemiter, Vector2 pos, int OwnerId)
 	Emiter *emiter = dynamic_cast<Emiter *>(iemiter);
 	if (emiter != nullptr)
 	{
-		emiter->Init();
 		if (OwnerId >= 0)
 		{
 			emiter->SetOwner(OwnerId);

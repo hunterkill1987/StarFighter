@@ -22,15 +22,16 @@ void Emiter::SpawnParticle()
 	{
 		for( pit = TParticles.begin() ; pit != TParticles.end() ; pit++)
 		{
-			(*pit)->p_pos = e_pos;
-			(*pit)->p_Life = eEngine->RandToFloat(0.f,3.0f);
-			(*pit)->p_duration = 0.1f;
-			//float dir =  atan2(e_rot.GetY(),e_rot.GetX()) * 180/PI;
-			float dir = -90.f;
-			(*pit)->p_angle = eEngine->RandToFloat(-p_spred + dir, p_spred + dir) * PI / 180;
-
-			(*pit)->p_rot = Vector2(sinf((*pit)->p_angle),cosf((*pit)->p_angle));
-		
+			if ((*pit)->p_Life <= 0.f)
+			{
+				(*pit)->p_vel = Vector2(0.f, 0.f);
+				(*pit)->p_pos = e_pos;
+				(*pit)->p_Life = eEngine->RandToFloat(0.f, 4.0f);
+				(*pit)->p_duration = 0.1f;
+				float dir = -90.f;
+				(*pit)->p_angle = eEngine->RandToFloat(-p_spred + dir, p_spred + dir) * PI / 180;
+				(*pit)->p_rot = Vector2(sinf((*pit)->p_angle), cosf((*pit)->p_angle));
+			}
 		}
 	}
 }
@@ -46,12 +47,14 @@ void Emiter::SetupParticle()
 	p_dissolve			= true;
 	p_dissolveRate		= 4;
 	e_IsActive			= true;
-	
+	e_EmitTime			= eEngine->GetTickCount()+4.f;
+
 	for(int i = 0; i != e_capicity; ++i)
 	{
 		particle = new Particle();
 		TParticles.push_back(particle);
 	}
+	SpawnParticle();
 }
 
 void Emiter::Init()
@@ -66,27 +69,23 @@ void Emiter::Init()
 		}
 	}
 	SetupParticle();
-	SpawnParticle();
 }
 
 void Emiter::Update(float deltaTime)
 {
-	if(e_IsActive)
+	if(TParticles.size() > 0)
 	{
 		for( pit = TParticles.begin() ; pit != TParticles.end() ; pit++)
 		{
-			(*pit)->p_vel = (*pit)->p_vel + (*pit)->p_rot * p_speed * deltaTime;
-			(*pit)->p_pos = (*pit)->p_pos + (*pit)->p_vel;
-		
-			(*pit)->p_Life -= (*pit)->p_duration;
-			
-			if( (*pit)->p_Life <= 0 )
+			if ((*pit)->p_Life > 0.f)
 			{
- 				delete (*pit);
-				pit = TParticles.erase( pit );
-				if( pit == TParticles.end() ) return;
-			}		
+				(*pit)->p_vel = (*pit)->p_vel + (*pit)->p_rot * p_speed * deltaTime;
+				(*pit)->p_pos = (*pit)->p_pos + (*pit)->p_vel;
+
+				(*pit)->p_Life -= (*pit)->p_duration;
+			}
 		}
+		SpawnParticle();
 	}
 
 }
