@@ -28,6 +28,7 @@ void Emiter::SpawnParticle()
 				(*pit)->p_pos = e_pos;
 				(*pit)->p_Life = eEngine->RandToFloat(0.f, 3.0f);
 				(*pit)->p_duration = 0.1f;
+				(*pit)->p_SpawnTime = eEngine->GetTickCount() + eEngine->RandToFloat(0.f, 0.5f);
 				float dir = -90.f;
 				(*pit)->p_angle = eEngine->RandToFloat(-p_spred + dir, p_spred + dir) * PI / 180;
 				(*pit)->p_rot = Vector2(sinf((*pit)->p_angle), cosf((*pit)->p_angle));
@@ -84,10 +85,13 @@ void Emiter::Update(float deltaTime)
 		{
 			if ((*pit)->p_Life > 0.f)
 			{
-				(*pit)->p_vel = (*pit)->p_vel + (*pit)->p_rot * p_speed * deltaTime;
-				(*pit)->p_pos = (*pit)->p_pos + (*pit)->p_vel;
+				if (eEngine->GetTickCount() > (*pit)->p_SpawnTime)
+				{
+					(*pit)->p_vel = (*pit)->p_vel + (*pit)->p_rot * p_speed * deltaTime;
+					(*pit)->p_pos = (*pit)->p_pos + (*pit)->p_vel;
 
-				(*pit)->p_Life -= (*pit)->p_duration;
+					(*pit)->p_Life -= (*pit)->p_duration;
+				}
 			}
 		}
 		
@@ -110,13 +114,16 @@ void Emiter::DrawParticle(ALLEGRO_BITMAP* particle)
 			{
 				if ((*pit)->p_Life > 0.f)
 				{
-					al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+					if (eEngine->GetTickCount() > (*pit)->p_SpawnTime)
+					{
+						al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 
-					float width = al_get_bitmap_width(particle);
-					float height = al_get_bitmap_height(particle);
+						float width = al_get_bitmap_width(particle);
+						float height = al_get_bitmap_height(particle);
 
-					double angle = atan2((*pit)->p_rot.GetY(), (*pit)->p_rot.GetX());
-					al_draw_rotated_bitmap(particle, width / 2, height / 2, (*pit)->p_pos.GetX(), (*pit)->p_pos.GetY(), angle, 0);
+						double angle = atan2((*pit)->p_rot.GetY(), (*pit)->p_rot.GetX());
+						al_draw_rotated_bitmap(particle, width / 2, height / 2, (*pit)->p_pos.GetX(), (*pit)->p_pos.GetY(), angle, 0);
+					}
 				}
 			}
 		}

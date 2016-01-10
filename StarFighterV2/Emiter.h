@@ -12,6 +12,7 @@ public:
 
 	float				p_Life;
 	float				p_duration;
+	float				p_SpawnTime;
 	float				p_angle;
 
 	Particle(): 
