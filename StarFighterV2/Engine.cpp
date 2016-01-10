@@ -128,10 +128,10 @@ void Engine::UpdateEngine(float deltaTime)
 					else
 					if (emiter != nullptr)
 					{
-						if(emiter->IsActive())
-						{
+						//if(emiter->IsActive())
+						//{
 							emiter->DrawParticle(it->second);
-						}
+						//}
 					}
 				}
 			}
