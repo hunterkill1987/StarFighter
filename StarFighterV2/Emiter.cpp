@@ -16,6 +16,11 @@ Emiter::Emiter(IEngine* engine):
 
 }
 
+void Emiter::SetSprite(ALLEGRO_BITMAP* Sprite)
+{
+	p_particle = Sprite;
+}
+
 void Emiter::SpawnParticle()
 {
 	if(TParticles.size() > 0 )
@@ -24,12 +29,13 @@ void Emiter::SpawnParticle()
 		{
 			if ((*pit)->p_Life <= 0.f)
 			{
+				(*pit)->p_Activate = true;
 				(*pit)->p_vel = Vector2(0.f, 0.f);
 				(*pit)->p_pos = e_pos;
-				(*pit)->p_Life = eEngine->RandToFloat(0.f, 3.0f);
+				(*pit)->p_Life = eEngine->RandToFloat(0.f, 4.0f);
 				(*pit)->p_duration = 0.1f;
 				(*pit)->p_SpawnTime = eEngine->GetTickCount() + eEngine->RandToFloat(0.f, 0.5f);
-				float dir = -90.f;
+				float dir = atan2(e_rot.GetX(), e_rot.GetY()) * 180 / PI;
 				(*pit)->p_angle = eEngine->RandToFloat(-p_spred + dir, p_spred + dir) * PI / 180;
 				(*pit)->p_rot = Vector2(sinf((*pit)->p_angle), cosf((*pit)->p_angle));
 			}
@@ -39,16 +45,13 @@ void Emiter::SpawnParticle()
 
 void Emiter::SetupParticle()
 {		
-
-	p_particle = "particle.bmp";
-
 	e_capicity			= 200;
-	p_speed				= 40.0f;
+	p_speed				= 10.0f;
 	p_spred				= 30.0f;
 	p_dissolve			= true;
 	p_dissolveRate		= 4;
 	e_IsActive			= true;
-	e_EmitTime			= eEngine->GetTickCount()+4.f;
+	e_EmitTime			= eEngine->GetTickCount()+6.f;
 
 	for(int i = 0; i != e_capicity; ++i)
 	{
@@ -74,9 +77,10 @@ void Emiter::Init()
 
 void Emiter::Update(float deltaTime)
 {
-	if (eEngine->GetTickCount() > e_EmitTime && e_EmitTime > 0.f)
+	if (Owner != nullptr)
 	{
-		e_IsActive = false;
+		e_pos = Owner->GetPosition();
+		e_rot = Owner->GetRotation();
 	}
 
 	if(TParticles.size() > 0)
@@ -95,7 +99,7 @@ void Emiter::Update(float deltaTime)
 			}
 		}
 		
-		if (IsActive())
+		if (IsActive() && e_EmitTime > 0.f && e_EmitTime >= eEngine->GetTickCount())
 		{
 			SpawnParticle();
 		}
@@ -104,27 +108,21 @@ void Emiter::Update(float deltaTime)
 }
 
 
-void Emiter::DrawParticle(ALLEGRO_BITMAP* particle)
+void Emiter::DrawActor()
 {
-	if(particle != NULL)
+	for( pit = TParticles.begin() ; pit != TParticles.end() ; pit++)
 	{
-		for( pit = TParticles.begin() ; pit != TParticles.end() ; pit++)
+		if ((*pit)->p_Life > 0.f)
 		{
-			if(particle != NULL)
+			if (eEngine->GetTickCount() > (*pit)->p_SpawnTime)
 			{
-				if ((*pit)->p_Life > 0.f)
-				{
-					if (eEngine->GetTickCount() > (*pit)->p_SpawnTime)
-					{
-						al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+				al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 
-						float width = al_get_bitmap_width(particle);
-						float height = al_get_bitmap_height(particle);
+				float width = al_get_bitmap_width(p_particle);
+				float height = al_get_bitmap_height(p_particle);
 
-						double angle = atan2((*pit)->p_rot.GetY(), (*pit)->p_rot.GetX());
-						al_draw_rotated_bitmap(particle, width / 2, height / 2, (*pit)->p_pos.GetX(), (*pit)->p_pos.GetY(), angle, 0);
-					}
-				}
+				double angle = atan2((*pit)->p_rot.GetY(), (*pit)->p_rot.GetX());
+				al_draw_rotated_bitmap(p_particle, width / 2, height / 2, (*pit)->p_pos.GetX(), (*pit)->p_pos.GetY(), angle, 0);
 			}
 		}
 	}
@@ -162,11 +160,30 @@ void Emiter::Activate(bool IsActivate)
 
 bool Emiter::IsActive()
 {
+	int DeactiveParticle = 0;
+	if (eEngine->GetTickCount() > e_EmitTime && e_EmitTime > 0.f)
+	{
+		e_IsActive = false;
+	}
+	
+	for (pit = TParticles.begin(); pit != TParticles.end(); pit++)
+	{
+		if ((*pit)->p_Life <= 0.f)
+		{
+			(*pit)->p_Activate = false;
+		}
+	}
+
+	if (DeactiveParticle >= e_capicity)
+	{
+		e_IsActive = false;
+	}
+
 	return e_IsActive;
 }
 
 char* Emiter::GetName(){return NULL; }
-char* Emiter::GetSurface(){return p_particle; }
+char* Emiter::GetSurface(){ return "particle.bmp"; } //TODO:: Debug stuff remuve it
 int Emiter::GetId() {return 0;}
 bool Emiter::IsAlive() {return false;}
 bool Emiter::IsPlayer() {return false;}

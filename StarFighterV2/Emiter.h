@@ -14,6 +14,7 @@ public:
 	float				p_duration;
 	float				p_SpawnTime;
 	float				p_angle;
+	float				p_Activate;
 
 	Particle(): 
 		p_pos(0,0),
@@ -31,7 +32,7 @@ private:
 	Vector2		e_rot;
 	Vector2		p_scale;
 
-	char*		p_particle;
+	ALLEGRO_BITMAP*		p_particle;
 	int			OwnerId;
 
 	ALLEGRO_PATH*		path;
@@ -65,7 +66,6 @@ public:
 	virtual Vector2 GetVelocity();
 	virtual Vector2 GetPosition();
 
-	virtual void DrawParticle(ALLEGRO_BITMAP* particle);
 	virtual void Activate(bool IsActivate);
 	virtual bool IsActive();
 	virtual void RemoveParticle();
@@ -78,6 +78,10 @@ public:
 	virtual bool IsPlayer();
 
 	virtual void Init();
+	virtual void DrawActor();
+
+	virtual void SetSprite(ALLEGRO_BITMAP* Sprite);
+
 	void SpawnParticle();
 	void UpdateParticle();
 	void Remove();

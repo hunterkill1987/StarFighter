@@ -2,16 +2,17 @@
 #include "Actor.h"
 
 Actor::Actor():
-	mHealth(0),
-	maxHealth(0),
-	mShield(0),
-	maxShield(0),
-	name(nullptr),
-	surface(nullptr),
-	m_velocity(0,0),
-	m_acceleration(0.0),
-	m_rotation(0,0),
-	m_position(0,0)
+	Health(0),
+	MaxHealth(0),
+	Shield(0),
+	MaxShield(0),
+	Name(nullptr),
+	Surface(nullptr),
+	Bitmap(nullptr),
+	Velocity(0,0),
+	Acceleration(0.0),
+	Rotation(0,0),
+	Position(0,0)
 {
 	
 }
@@ -19,16 +20,17 @@ Actor::Actor():
 //Just for test;
 
 Actor::Actor(Actor& actor):
-	mHealth(0),
-	maxHealth(0),
-	mShield(0),
-	maxShield(0),
-	name(nullptr),
-	surface(nullptr),
-	m_velocity(0, 0),
-	m_acceleration(0.0),
-	m_rotation(0, 0),
-	m_position(0, 0)
+	Health(0),
+	MaxHealth(0),
+	Shield(0),
+	MaxShield(0),
+	Name(nullptr),
+	Surface(nullptr),
+	Bitmap(nullptr),
+	Velocity(0, 0),
+	Acceleration(0.0),
+	Rotation(0, 0),
+	Position(0, 0)
 {
 	pGame = actor.pGame;
 	pEngine = actor.pEngine;
@@ -43,26 +45,42 @@ void Actor::Init()
 		Player *player = dynamic_cast<Player *>(actor);
 		if (player != nullptr)
 		{
-			player->maxHealth = 100;
+			player->MaxHealth = 100;
 
-			if (player->mHealth <= 0)
+			if (player->Health <= 0)
 			{
-				player->mHealth = maxHealth;
+				player->Health = MaxHealth;
 			}
 
-			player->maxShield = 100;
+			player->MaxShield = 100;
 
-			if (player->mShield <= 0)
+			if (player->Shield <= 0)
 			{
-				player->mShield = maxShield;
+				player->Shield = MaxShield;
 			}
 		}
 	}
 
 }
+
+void Actor::DrawActor()
+{
+	Vector2 pos = this->GetPosition();
+	Vector2 rot = this->GetRotation();
+
+	if (Bitmap != nullptr)
+	{
+		float width = al_get_bitmap_width(Bitmap);
+		float height = al_get_bitmap_height(Bitmap);
+
+		double angle = atan2(rot.GetY(), rot.GetX());
+		al_draw_rotated_bitmap(Bitmap, width / 2, height / 2, pos.GetX(), pos.GetY(), angle, 0);
+	}
+}
+
 void Actor::Update(float fTime)
 {
-	time = fTime;
+	Time = fTime;
 
 }
 
@@ -84,7 +102,7 @@ void Actor::StopFire()
 
 bool Actor::IsAlive()
 {
-	if(mHealth <= 0)
+	if(Health <= 0)
 	{
 			return false;
 	}
@@ -103,81 +121,81 @@ bool Actor::IsPlayer()
 
 int Actor::GetHealth()
 {
-	return mHealth;
+	return Health;
 }
 
 int Actor::GetShield()
 {
-	return mShield;
+	return Shield;
 }
 
 char* Actor::GetSurface()
 {
-	return surface;
+	return Surface;
 }
 
 Vector2 Actor::GetVelocity()
 {
-	return m_velocity;
+	return Velocity;
 }
 
 void Actor::SetVelocity(Vector2 vel)
 {
 	//printf("%f  %f \n",vel.GetX(),vel.GetY());
-	m_velocity = vel;
+	Velocity = vel;
 }
 
 Vector2 Actor::GetRotation()
 {
-	return m_rotation;
+	return Rotation;
 }
 
 Vector2 Actor::GetPosition() 
 {
 	//printf("%f  %f \n",m_position.x,m_position.y);
-	return m_position;
+	return Position;
 }
 
 char* Actor::GetName()
 {
-	return name;
+	return Name;
 }
 
 void Actor::SetRotation(Vector2 rot)
 {
-		m_rotation = rot;
+		Rotation = rot;
 }
 
-void Actor::SetRotation(float angle)
+void Actor::SetRotation(float Angle)
 {	
-	m_rotation = Vector2(sinf(angle),cos(angle));
+	Rotation = Vector2(sinf(Angle),cos(Angle));
 }
 
 void Actor::SetPosition(Vector2 pos)
 {
 		//printf("%f  %f \n",pos.x,pos.y);
-		m_position = pos;
+		Position = pos;
 }
 
-void Actor::SetSurface (char* surfaceName)
+void Actor::SetSurface (char* SurfaceName)
 {
-	surface  = surfaceName;
+	Surface  = SurfaceName;
 }
 
-void Actor::SetName(char* Name)
+void Actor::SetName(char* ActorName)
 {
-	name = Name;
+	Name = ActorName;
 }
 
 void Actor::SetAcceleration(float acc)
 {
 	if(acc >=0 )
 	{
-		m_acceleration = acc;
+		Acceleration = acc;
 	}
 	else
 	{
-		m_acceleration = 0.0f;
+		Acceleration = 0.0f;
 	}
 }
 
@@ -186,6 +204,14 @@ int Actor::GetId()
 	return this->pGame->GetActorId(this);
 }
 
+
+void Actor::SetSprite(ALLEGRO_BITMAP* Sprite)
+{
+	if (Sprite != nullptr)
+	{
+		Bitmap = Sprite;
+	}
+}
 Actor::~Actor(void)
 {
 }

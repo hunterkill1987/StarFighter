@@ -14,22 +14,24 @@ class Actor : public IActor
 {	
 private:
 
-	int mHealth;
-	int maxHealth;
+	int Health;
+	int MaxHealth;
 
-	int mShield;
-	int maxShield;
+	int Shield;
+	int MaxShield;
 
-	char* name;
-	char* surface;
+	char* Name;
+	char* Surface;
 	unsigned int id;
 
-	float time;
-	float m_acceleration;
+	float Time;
+	float Acceleration;
 
-	Vector2 m_rotation;
-	Vector2 m_velocity;
-	Vector2 m_position;
+	Vector2 Rotation;
+	Vector2 Velocity;
+	Vector2 Position;
+
+	ALLEGRO_BITMAP*		Bitmap;
 
 public:
 	IActor*		pActor;
@@ -56,6 +58,7 @@ public:
 	virtual Vector2 GetVelocity();
 	virtual Vector2 GetPosition();
 	virtual int GetId();
+	virtual void DrawActor();
 
 	virtual void Init();
 
@@ -72,5 +75,7 @@ public:
 	void SetAcceleration(float acc);
 	void SetSurface (char* surfaceName);
 	void SetName(char* Name);
+
+	virtual void SetSprite(ALLEGRO_BITMAP* Sprite);
 };
 #endif

@@ -43,7 +43,7 @@ int Engine::Init()
 		aEvent->Init();
 		
 	}
-	al_set_target_bitmap(al_get_backbuffer(display));
+	//al_set_target_bitmap(al_get_backbuffer(display));
 	return 1;
 }
 
@@ -71,13 +71,14 @@ void Engine::AddDrawActor(IActor* actor)
 		{
 			al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 
+			//TODO::Remove Method GetSurface, get file name fro file
 			loadbitmap = al_load_bitmap(actor->GetSurface());
 			if(!loadbitmap)
 			{
 				al_destroy_bitmap(loadbitmap);
 				return;
 			}
-
+			actor->SetSprite(loadbitmap);
 			mapActor.insert(std::pair<int,ALLEGRO_BITMAP*>(pGame->GetActorId(actor), loadbitmap));
 
 		}
@@ -95,9 +96,9 @@ void Engine::UpdateEngine(float deltaTime)
 {
 	IActor* actor;
 
-	ALLEGRO_BITMAP* buffer = al_create_bitmap(800,600);
+	//ALLEGRO_BITMAP* buffer = al_create_bitmap(1000,600);
 
-	al_set_target_bitmap(buffer);
+	//al_set_target_bitmap(buffer);
 	al_clear_to_color(al_map_rgb(0,0,0));
 
 	if (aEvent != nullptr)
@@ -113,6 +114,8 @@ void Engine::UpdateEngine(float deltaTime)
 				{
 					al_convert_mask_to_alpha(it->second,(al_map_rgb(255,0,255)));
 
+					actor->DrawActor();
+					/*
 					IEmiter* emiter = dynamic_cast<IEmiter*>(actor);
 					if(emiter == 0 )
 					{
@@ -128,19 +131,17 @@ void Engine::UpdateEngine(float deltaTime)
 					else
 					if (emiter != nullptr)
 					{
-						//if(emiter->IsActive())
-						//{
-							emiter->DrawParticle(it->second);
-						//}
+						emiter->DrawParticle(it->second);
 					}
+					*/
 				}
 			}
 		}
 		aEvent->UpdateInput();
 	}
-	al_set_target_backbuffer(display);
-	al_draw_bitmap(buffer,0,0,0);
-	al_destroy_bitmap(buffer);
+	//al_set_target_backbuffer(display);
+	//al_draw_bitmap(buffer,0,0,0);
+	//al_destroy_bitmap(buffer);
 	al_flip_display();
 }
 
