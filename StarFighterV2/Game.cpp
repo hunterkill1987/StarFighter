@@ -24,8 +24,9 @@ int Game::GameInit(IEngine* engine)
 		return 0;
 	}
 
+	Pool = ActorPool::GetInstance();
 	player = new Player(*actor);
-	SpawnActor(player,Vector2(300,300),Vector2(1,0));
+	SpawnActor(player,Vector2(0,0),Vector2(1,0));
 
 	return 1;
 }

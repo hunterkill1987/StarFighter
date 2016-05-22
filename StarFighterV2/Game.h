@@ -7,6 +7,7 @@
 #include "Emiter.h"
 #include "IEmiter.h"
 #include "IGame.H"
+#include "ActorPool.h"
 #include <map>
 
 typedef std::pair<int, IActor*>  pair;
@@ -29,6 +30,7 @@ private:
 	Actor* actor;
 	Emiter* emiter;
 	tMapActor mapActor;
+	ActorPool* Pool;
 
 public:
 	Game(void);

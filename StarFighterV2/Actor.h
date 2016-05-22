@@ -73,7 +73,10 @@ public:
 	void SetVelocity(Vector2 vel);
 	void SetPosition(Vector2 pos);
 	void SetAcceleration(float acc);
+	//TODO :: Remove unused code
+	//----
 	void SetSurface (char* surfaceName);
+	//----
 	void SetName(char* Name);
 
 	virtual void SetSprite(ALLEGRO_BITMAP* Sprite);
