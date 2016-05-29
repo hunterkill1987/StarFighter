@@ -31,7 +31,7 @@ void Camera::UpdateCamera()
 		x = -(winsize.GetX() / 2) + ownerpos.GetX();
 		y = -(winsize.GetY() / 2) + ownerpos.GetY();
 
-		/*if( x < 0)
+		if( x < 0)
 		{
 			x = 0;
 		}
@@ -40,7 +40,7 @@ void Camera::UpdateCamera()
 		{
 			y = 0;
 		}
-		*/
+		
 		campos = Vector2(x,y);	
 
 		al_identity_transform(&camera);

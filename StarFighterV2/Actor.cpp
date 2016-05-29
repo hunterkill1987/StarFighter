@@ -1,11 +1,7 @@
 #include "StdAfx.h"
 #include "Actor.h"
 
-Actor::Actor():
-	Health(0),
-	MaxHealth(0),
-	Shield(0),
-	MaxShield(0),
+Actor::Actor(unsigned int Index):
 	Name(nullptr),
 	Surface(nullptr),
 	Bitmap(nullptr),
@@ -14,16 +10,12 @@ Actor::Actor():
 	Rotation(0,0),
 	Position(0,0)
 {
-	
+	UID = Index;
 }
 
 //Just for test;
 
-Actor::Actor(Actor& actor):
-	Health(0),
-	MaxHealth(0),
-	Shield(0),
-	MaxShield(0),
+Actor::Actor() :
 	Name(nullptr),
 	Surface(nullptr),
 	Bitmap(nullptr),
@@ -32,34 +24,20 @@ Actor::Actor(Actor& actor):
 	Rotation(0, 0),
 	Position(0, 0)
 {
-	pGame = actor.pGame;
+	/*pGame = actor.pGame;
 	pEngine = actor.pEngine;
 	pEvent = actor.pEvent;
+	UID = Index;*/
 }
 
 void Actor::Init()
 {
-	IActor* actor = pGame->GetActorById(GetId());
+	/*IActor* actor = pGame->GetActorById(GetId());
 	if (actor != nullptr)
 	{
 		Player *player = dynamic_cast<Player *>(actor);
-		if (player != nullptr)
-		{
-			player->MaxHealth = 100;
-
-			if (player->Health <= 0)
-			{
-				player->Health = MaxHealth;
-			}
-
-			player->MaxShield = 100;
-
-			if (player->Shield <= 0)
-			{
-				player->Shield = MaxShield;
-			}
-		}
-	}
+		
+	}*/
 
 }
 
@@ -78,6 +56,15 @@ void Actor::DrawActor()
 	}
 }
 
+long long int Actor::GetUID()
+{
+	return UID;
+}
+
+void Actor::SetUID(long long int NewUID)
+{
+	UID = NewUID;
+}
 void Actor::Update(float fTime)
 {
 	Time = fTime;
@@ -100,14 +87,6 @@ void Actor::StopFire()
 {
 }
 
-bool Actor::IsAlive()
-{
-	if(Health <= 0)
-	{
-			return false;
-	}
-	return true;
-}
 
 bool Actor::IsPlayer()
 {
@@ -117,16 +96,6 @@ bool Actor::IsPlayer()
 			return true;
 	}
 	return false;
-}
-
-int Actor::GetHealth()
-{
-	return Health;
-}
-
-int Actor::GetShield()
-{
-	return Shield;
 }
 
 char* Actor::GetSurface()

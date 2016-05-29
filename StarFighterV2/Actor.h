@@ -13,16 +13,9 @@ class Actor : public IActor
 			 
 {	
 private:
-
-	int Health;
-	int MaxHealth;
-
-	int Shield;
-	int MaxShield;
-
 	char* Name;
 	char* Surface;
-	unsigned int id;
+	unsigned int UID;
 
 	float Time;
 	float Acceleration;
@@ -39,16 +32,13 @@ public:
 	IEngine*	pEngine;
 	IGame*		pGame;
 
-	Actor();
-	Actor(Actor& actor);
+	Actor(void);
+	Actor(unsigned int Index);
+	//Actor(Actor& actor, unsigned int Index);
 	virtual ~Actor(void);
 	virtual void Update(float fTime);
 	
-	virtual bool IsAlive();
 	virtual bool IsPlayer();
-
-	virtual int GetHealth();
-	virtual int GetShield();
 
 	virtual char* GetSurface();
 	virtual char* GetName();
@@ -79,6 +69,8 @@ public:
 	//----
 	void SetName(char* Name);
 
+	long long int GetUID();
+	void SetUID(long long int NewUID);
 	virtual void SetSprite(ALLEGRO_BITMAP* Sprite);
 };
 #endif

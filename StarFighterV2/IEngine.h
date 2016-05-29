@@ -21,10 +21,9 @@ public:
 	virtual float GetCurrentTime() = 0;
 	virtual ALLEGRO_PATH* GetPath() = 0;
 
-	virtual long long int Uniq_ID() = 0;
-
 	virtual float RandToFloat(float a,float b) = 0;
 	virtual IEvent* GetEvent() =0;
 	virtual IGame* GetGame() = 0;
+	virtual float GetDeltaTime() = 0;
 };
 #endif

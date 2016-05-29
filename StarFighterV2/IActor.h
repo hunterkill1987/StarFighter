@@ -23,8 +23,7 @@ public:
 	
 	virtual void DrawActor() = 0;
 
-	virtual bool IsAlive() = false; 
-	virtual bool IsPlayer() = false;
+	virtual bool IsPlayer() = 0;
 
 	virtual void SetSprite(ALLEGRO_BITMAP* Sprite) = 0;
 };

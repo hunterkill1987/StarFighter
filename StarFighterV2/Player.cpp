@@ -2,63 +2,78 @@
 #include "Player.h"
 #include "Emiter.h"
 
-Player::Player(Actor &actor):
+Player::Player(unsigned int Index) :
 	Angle(0.0),
 	acc(0.0),
-	accTime(0.0)
+	accTime(0.0),
+	Health(0),
+	MaxHealth(0),
+	Shield(0),
+	MaxShield(0)
 {
-	pGame = actor.pGame;
-	pEngine = actor.pEngine;
-	pEvent = actor.pEvent;
-	a = 0;
 }
 
 void Player::Update(float deltaTime)
 {
+	//Test fx !!! works
+	if (this->pEngine->GetTickCount() > fx && fx > 0.0)
+	{
+		fx = 0.f;
+		//this->pGame->SpawnFX(Player_emiter, this->GetPosition(), this->GetId());
+	}
+	if (player_camera != NULL)
+		player_camera->UpdateCamera();
+
+	/*a = lerp<float>(a, 1.f, deltaTime);
+	fprintf(stderr, "player lerp %f  \n",a);
+
+	lerp(0.f,1.f, deltaTime);*/
+}
+
+void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
+{
 	Vector2 rotation = this->GetRotation();
 	Vector2 velocity = this->GetVelocity();
 
-	Actor::Update(deltaTime);
-	
-	if(this->pEvent != NULL)
-	{ 
-		int input=this->pEvent->GetInput();
-			
-		if(input & ( 1 << LEFT))
+	if (Input != nullptr && Engine != nullptr)
+	{
+		int input = Input->GetInput();
+
+		if (input & (1 << LEFT))
 		{
-			Angle += deltaTime * 3.14f;
-			if(Angle > 3.14f) Angle -= 3.14 * 2.f;
+			Angle += Engine->GetDeltaTime() * 3.14f;
+			if (Angle > 3.14f) Angle -= 3.14 * 2.f;
 			//fprintf(stderr,"player angle %f %f \n", Angle ,Angle * 180/ PI);
-			rotation = Vector2(cosf(Angle),sinf(Angle));
+			rotation = Vector2(cosf(Angle), sinf(Angle));
 			SetRotation(rotation);
 		}
 
-		if(input & ( 1 << RIGHT))
+		if (input & (1 << RIGHT))
 		{
-			Angle -= deltaTime * 3.14f;
-			if(Angle < -3.14f) Angle += 3.14 * 2.f;
+			Angle -= Engine->GetDeltaTime() * 3.14f;
+			if (Angle < -3.14f) Angle += 3.14 * 2.f;
 			//fprintf(stderr,"player angle %f %f \n", Angle ,Angle * 180/ PI);
-			rotation = Vector2(cosf(Angle),sinf(Angle));
+			rotation = Vector2(cosf(Angle), sinf(Angle));
 			SetRotation(rotation);
 		}
 
-		if( input & ( 1 << UP))
+		if (input & (1 << UP))
 		{
 			rotation = Vector2(GetRotation().GetX(), GetRotation().GetY());
-			velocity = velocity + rotation * 4 * deltaTime;
+			velocity = velocity + rotation * 4 * Engine->GetDeltaTime();
 		}
 
-		if( input & ( 1 << DOWN))
+		if (input & (1 << DOWN))
 		{
 			rotation = Vector2(-1 * GetRotation().GetX(), -1 * GetRotation().GetY());
-			velocity = velocity + rotation * 4 * deltaTime;
+			velocity = velocity + rotation * 4 * Engine->GetDeltaTime();
 		}
 
-		if( input & ( 1 << FIRE))
+		if (input & (1 << FIRE))
 		{
-			
+
 		}
-		
+
 
 		Vector2 pos = GetPosition();
 		Vector2 newpos = GetPosition();
@@ -67,33 +82,33 @@ void Player::Update(float deltaTime)
 		SetVelocity(velocity);
 		SetPosition(newpos);
 	}
-
-	//Test fx !!! works
-	if(this->pEngine->GetTickCount() > fx && fx > 0.0)
-	{
-		fx = 0.f;
-		this->pGame->SpawnFX(Player_emiter, this->GetPosition(), this->GetId());
-	}
-	if(player_camera != NULL)
-		player_camera->UpdateCamera();
-
-	/*a = lerp<float>(a, 1.f, deltaTime);
-	fprintf(stderr, "player lerp %f  \n",a);
-	
-	lerp(0.f,1.f, deltaTime);*/
 }
-
 void Player::Init()
 {
 	this->SetSurface("herok.bmp");
 	this->SetName("Player");
 	
-	fx = this->pEngine->GetTickCount() + 0.7;
-	player_camera = new Camera();
-	Player_emiter = new Emiter(this->pEngine);
-	fprintf(stderr,"player id: %i  \n", this->GetId());
+	//fx = this->pEngine->GetTickCount() + 0.7;
+	//player_camera = new Camera();
+	//Player_emiter = new Emiter(this->pEngine);
+	//fprintf(stderr,"player id: %i  \n", this->GetId());
 
-	player_camera->InitCamera(this,this->pEngine);
+	//player_camera->InitCamera(this,this->pEngine);
+
+	MaxHealth = 100;
+
+	if (Health <= 0)
+	{
+		Health = MaxHealth;
+	}
+
+	MaxShield = 100;
+
+	if (Shield <= 0)
+	{
+			Shield = MaxShield;
+	}
+
 }
 
 Player::~Player(void)

@@ -8,7 +8,10 @@ Engine::Engine():
 path(nullptr),
 display(nullptr),
 mActor(nullptr),
-mEngine(nullptr)
+mEngine(nullptr),
+OldTime(0.0),
+NewTime(0.0),
+DeltaTime(0.0)
 {
 	mEngine = this;
 	aEvent  = new Event();
@@ -144,7 +147,12 @@ void Engine::UpdateEngine(float deltaTime)
 	//al_destroy_bitmap(buffer);
 	al_flip_display();
 }
-
+float Engine::GetDeltaTime()
+{
+	OldTime = NewTime;
+	NewTime = al_get_time();
+	return DeltaTime = NewTime - OldTime;
+}
 Vector2 Engine::GetActorSize(int OwnerId)
 {
 	float w,h;
@@ -202,12 +210,6 @@ float Engine::RandToFloat(float min,float max)
 	std::uniform_real_distribution<float> dis(min,max);
 
 	return dis(gen);
-}
-
-long long int Engine::Uniq_ID()
-{
-	static unsigned long long int n = 0;
-	return ++n;
 }
 
 Engine::~Engine(void)

@@ -3,12 +3,10 @@
 
 ActorPool* ActorPool::Instance = 0;
 
-ActorPool::ActorPool()
+ActorPool::ActorPool() : Index(0)
 {
-	for (int i = 0; i < PoolSize; i++)
-	{
-		AvailableActor.push_back(new Actor);
-	}
+	ActiveActor.reserve(PoolSize);
+	DeadActor.reserve(PoolSize);
 }
 
 ActorPool* ActorPool::GetInstance()
@@ -21,9 +19,43 @@ ActorPool* ActorPool::GetInstance()
 	return Instance;
 }
 
-void ActorPool::NewActor()
+void ActorPool::UpdatePool(float fTime)
 {
-	
+	if (!ActiveActor.empty())
+	{
+		for (Actor* AActor : ActiveActor)
+		{
+			AActor->Update(fTime);
+		}
+	}
+}
+Actor ActorPool::GetResources()
+{
+	Actor* NewActor = nullptr;
+
+	if (!DeadActor.empty())
+	{
+		NewActor = DeadActor.back();
+		DeadActor.pop_back();
+		if (NewActor != nullptr)
+		{
+			NewActor->SetUID(NewActor->GetId() + 1);
+			return (*NewActor);
+		}
+	}
+
+	NewActor = new Actor(Index++);
+	ActiveActor.push_back(NewActor);
+	return (*NewActor);
+}
+
+void ActorPool::CreateActor(Actor* NewActor)
+{
+	if (NewActor != nullptr)
+	{
+		NewActor->Init();
+		ActiveActor[NewActor->GetUID()] = NewActor;
+	}
 }
 
 IActor* ActorPool::GetActorById(int ActorId)
@@ -33,4 +65,6 @@ IActor* ActorPool::GetActorById(int ActorId)
 
 ActorPool::~ActorPool()
 {
+	for (Actor* aa : ActiveActor) delete aa;
+	for (Actor* ua : DeadActor) delete ua;
 }

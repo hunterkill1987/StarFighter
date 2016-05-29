@@ -34,6 +34,11 @@ private:
 	int DrawSurface();
 	
 	void Render();
+
+	float OldTime;
+	float NewTime;
+	float DeltaTime;
+
 public:
 
 	IActor				*mActor;
@@ -59,7 +64,7 @@ public:
 	virtual IEvent* GetEvent();
 	virtual float GetCurrentTime();
 	virtual float RandToFloat(float a,float b);
-	virtual long long int Uniq_ID();
+	virtual float GetDeltaTime();
 
 	bool Running() {return aEvent->done; };
 	void SetGame(IGame* game) { pGame = game; };

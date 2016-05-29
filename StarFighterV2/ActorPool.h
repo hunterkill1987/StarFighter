@@ -5,10 +5,12 @@
 class ActorPool
 {
 private:
-	std::list<Actor*> AvailableActor;
-	std::list<Actor*> InUseActor;
+	std::vector<Actor*> ActiveActor;
+	std::vector<Actor*> DeadActor;
 	static const int PoolSize = 100;
 	static ActorPool* Instance;
+	
+	unsigned int Index;
 
 public:
 
@@ -20,7 +22,10 @@ public:
 
 	void ResetActor(IActor* Acotr);
 
-	void NewActor();
+	Actor GetResources();
+
+	void CreateActor(Actor* NewActor);
+	void UpdatePool(float fTime);
 
 	~ActorPool();
 };
