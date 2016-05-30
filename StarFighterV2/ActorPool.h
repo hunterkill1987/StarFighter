@@ -22,7 +22,7 @@ public:
 
 	void ResetActor(IActor* Acotr);
 
-	Actor GetResources();
+	Actor* GetResources();
 
 	void CreateActor(Actor* NewActor);
 	void UpdatePool(float fTime);

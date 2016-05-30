@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Emiter.h"
 
-Player::Player(unsigned int Index) :
+Player::Player(unsigned int Index) : Actor(EActorPlayer),
 	Angle(0.0),
 	acc(0.0),
 	accTime(0.0),

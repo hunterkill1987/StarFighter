@@ -38,7 +38,7 @@ public:
 	void Update(float fTime);
 	int GameInit(IEngine* g_engine);
 
-	virtual void SpawnActor(IActor* actor, Vector2 pos = Vector2(0.0f, 0.0f), Vector2 rot = Vector2(0.0f, 0.0f));
+	template<typename T> void SpawnActor(T actor, Vector2 pos = Vector2(0.0f, 0.0f), Vector2 rot = Vector2(0.0f, 0.0f));
 	virtual void SpawnFX(IEmiter* emiter, Vector2 pos, int OwnerID = 0);
 	virtual IActor* GetActorById(int id);
 	virtual int GetActorId(IActor* actor);

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Actor.h"
 
-Actor::Actor(unsigned int Index):
+Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
 	Name(nullptr),
 	Surface(nullptr),
 	Bitmap(nullptr),
@@ -11,34 +11,12 @@ Actor::Actor(unsigned int Index):
 	Position(0,0)
 {
 	UID = Index;
-}
-
-//Just for test;
-
-Actor::Actor() :
-	Name(nullptr),
-	Surface(nullptr),
-	Bitmap(nullptr),
-	Velocity(0, 0),
-	Acceleration(0.0),
-	Rotation(0, 0),
-	Position(0, 0)
-{
-	/*pGame = actor.pGame;
-	pEngine = actor.pEngine;
-	pEvent = actor.pEvent;
-	UID = Index;*/
+	AType = ActorType;
+	Position = Pos;
 }
 
 void Actor::Init()
 {
-	/*IActor* actor = pGame->GetActorById(GetId());
-	if (actor != nullptr)
-	{
-		Player *player = dynamic_cast<Player *>(actor);
-		
-	}*/
-
 }
 
 void Actor::DrawActor()

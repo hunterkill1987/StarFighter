@@ -9,10 +9,10 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
-class Actor : public IActor 
-			 
+class Actor : public IActor 	 
 {	
 private:
+
 	char* Name;
 	char* Surface;
 	unsigned int UID;
@@ -27,14 +27,23 @@ private:
 	ALLEGRO_BITMAP*		Bitmap;
 
 public:
+	enum EActorType
+	{
+		EActorBase,
+		EActorPlayer,
+		EActorEnemy,
+		EActroEmiter
+	};
+
+	EActorType AType;
+
 	IActor*		pActor;
 	IEvent*		pEvent;
 	IEngine*	pEngine;
 	IGame*		pGame;
 
-	Actor(void);
-	Actor(unsigned int Index);
-	//Actor(Actor& actor, unsigned int Index);
+	Actor(unsigned int Index, EActorType ActorType = EActorBase, Vector2 pos = Vector2(0, 0));
+
 	virtual ~Actor(void);
 	virtual void Update(float fTime);
 	

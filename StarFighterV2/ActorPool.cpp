@@ -29,7 +29,7 @@ void ActorPool::UpdatePool(float fTime)
 		}
 	}
 }
-Actor ActorPool::GetResources()
+Actor* ActorPool::GetResources()
 {
 	Actor* NewActor = nullptr;
 
@@ -40,13 +40,13 @@ Actor ActorPool::GetResources()
 		if (NewActor != nullptr)
 		{
 			NewActor->SetUID(NewActor->GetId() + 1);
-			return (*NewActor);
+			return NewActor;
 		}
 	}
 
 	NewActor = new Actor(Index++);
 	ActiveActor.push_back(NewActor);
-	return (*NewActor);
+	return NewActor;
 }
 
 void ActorPool::CreateActor(Actor* NewActor)

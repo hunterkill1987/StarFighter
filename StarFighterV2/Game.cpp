@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Game.h"
 #include "Camera.h"
+#include "Player.h"
 #include <algorithm>
 #include <functional>
 Game::Game(void):
@@ -14,10 +15,9 @@ int Game::GameInit(IEngine* engine)
 	if (engine != nullptr)
 	{
 		g_engine = engine; 
-		actor = new Actor();
-		actor->pGame = this;
+		/*actor->pGame = this;
 		actor->pEngine = g_engine;
-		actor->pEvent = g_engine->GetEvent();
+		actor->pEvent = g_engine->GetEvent();*/
 	}
 	else
 	{
@@ -25,20 +25,15 @@ int Game::GameInit(IEngine* engine)
 	}
 
 	Pool = ActorPool::GetInstance();
-	player = new Player(*actor);
-	SpawnActor(player,Vector2(0,0),Vector2(1,0));
+	player = reinterpret_cast<Player*>(Pool->GetResources());
+	SpawnActor<Player*>(player,Vector2(0,0),Vector2(1,0));
 
 	return 1;
 }
 
 void Game::Update(float fTime)
 {
-	tMapActor::iterator it;
-	for(it=mapActor.begin(); it!=mapActor.end(); ++it)
-	{	
-		IActor* actor = it->second;
-		actor->Update(fTime);
-	}
+	Pool->UpdatePool(fTime);
 }
 
 void Game::SpawnFX(IEmiter* iemiter, Vector2 pos, int OwnerId)
@@ -53,26 +48,25 @@ void Game::SpawnFX(IEmiter* iemiter, Vector2 pos, int OwnerId)
 		emiter->SetPosition(pos);
 		emiter->SetRotaion(Vector2(0.f, 1.f));
 		emiter->Init();
-		SpawnActor(emiter);
+		//SpawnActor(emiter);
 	}
 }
 
-void Game::SpawnActor(IActor* actor,Vector2 pos,Vector2 rot)
+template<typename T> void Game::SpawnActor(T actor,Vector2 pos,Vector2 rot)
 {
 	if (actor != nullptr)
 	{
-		Actor *newActor = dynamic_cast<Actor*>(actor);
-		if (newActor != nullptr)
+		Player* player = dynamic_cast<Player*>(actor);
+		if (player != nullptr)
 		{
-			newActor->Init();
-			newActor->SetPosition(pos);
-			newActor->SetRotation(rot);
+			Pool->CreateActor(player);
 		}
-		int id = g_engine->Uniq_ID();
-		if (id >= 0)
-		{
-			mapActor.insert(std::pair<int, IActor*>(id, actor));
-		}
+			
+			/*actor->SetPosition(pos);
+			actor->SetRotation(rot);*/
+			
+		mapActor.insert(std::pair<int, IActor*>(1, actor));
+
 		g_engine->AddDrawActor(actor);
 	}else
 	{
