@@ -15,6 +15,7 @@ class xmlParser
 private:
 	xml_document<> doc;
 	xml_node<> * root_node;
+	char* FilePath;
 
 	static xmlParser* Instance;
 
@@ -22,7 +23,8 @@ public:
 	xmlParser() {};
 
 	static xmlParser* GetInstance();
-
+	xml_node<>* GetRoot(char* Root);
+	void GetFile(char* File);
 	~xmlParser();
 };
 

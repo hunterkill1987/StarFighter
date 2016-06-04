@@ -7,20 +7,25 @@
 #include "Emiter.h"
 #include "IEmiter.h"
 #include "IGame.H"
+#include "xmlParser.h"
 #include "ActorPool.h"
 #include <map>
+
+using namespace rapidxml;
+using namespace std;
 
 typedef std::pair<int, IActor*>  pair;
 typedef std::map< int, IActor*>	 tMapActor;
 
-struct FindActor : public std::binary_function<pair,IActor*,bool>
+/*
+struct FindActor : public std::binary_function<pair, IActor*, bool>
 {
 	bool operator()(const pair& p, IActor* value) const
 	{
 		return p.second == value;
 	}
 };
-
+*/
 class Game : public IGame
 {
 private:
@@ -31,6 +36,7 @@ private:
 	Emiter* emiter;
 	tMapActor mapActor;
 	ActorPool* Pool;
+	xmlParser* XmlParser;
 
 public:
 	Game(void);

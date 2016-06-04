@@ -24,7 +24,12 @@ int Game::GameInit(IEngine* engine)
 		return 0;
 	}
 
+	XmlParser = xmlParser::GetInstance();
 	Pool = ActorPool::GetInstance();
+
+	XmlParser->GetFile("../Actor/Actor.xml");
+	XmlParser->GetRoot("Actor");
+
 	player = reinterpret_cast<Player*>(Pool->GetResources());
 	SpawnActor<Player*>(player,Vector2(0,0),Vector2(1,0));
 
@@ -86,12 +91,12 @@ IActor* Game::GetActorById(int id)
 
 int Game::GetActorId(IActor* actor)
 {
-	tMapActor::iterator it;
+/*	tMapActor::iterator it;
 	it = find_if(mapActor.begin(),mapActor.end(),std::bind2nd(FindActor(),actor));
 	if(it != mapActor.end())
 	{
 		return it->first;
-	}
+	}*/
 	return 0;
 }
 
