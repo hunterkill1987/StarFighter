@@ -24,14 +24,26 @@ int Game::GameInit(IEngine* engine)
 		return 0;
 	}
 
+	//XML Parser test
 	XmlParser = xmlParser::GetInstance();
 	Pool = ActorPool::GetInstance();
 
-	XmlParser->GetFile("../Actor/Actor.xml");
-	XmlParser->GetRoot("Actor");
+	vector<char> file = XmlParser->GetFile("../Actor/Actor.xml");
+	xml_document<> ActorXml;
+	ActorXml.parse<0>(&file[0]);
+	xml_node<>* RootNode = ActorXml.first_node("ActorPool");
 
-	player = reinterpret_cast<Player*>(Pool->GetResources());
-	SpawnActor<Player*>(player,Vector2(0,0),Vector2(1,0));
+	for (xml_node<> * ActorNode = RootNode->first_node("Actor"); ActorNode; ActorNode = ActorNode->next_sibling())
+	{
+		fprintf(stderr, "UpdatePlayer %s !\n", ActorNode->first_attribute("ActorXml")->value());
+		char file[80] = "../Actor/";
+		strcat(file, ActorNode->first_attribute("ActorXml")->value());
+		vector<char> ActorFile = XmlParser->GetFile(file);
+	}
+
+
+	//player = reinterpret_cast<Player*>(Pool->GetResources());
+	//SpawnActor<Player*>(player,Vector2(0,0),Vector2(1,0));
 
 	return 1;
 }

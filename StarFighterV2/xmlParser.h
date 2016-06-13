@@ -24,7 +24,7 @@ public:
 
 	static xmlParser* GetInstance();
 	xml_node<>* GetRoot(char* Root);
-	void GetFile(char* File);
+	vector<char> GetFile(char* File);
 	~xmlParser();
 };
 
