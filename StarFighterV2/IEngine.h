@@ -11,7 +11,8 @@ class IEngine
 {
 public:
 	virtual int Init() = 0;
-	virtual void AddDrawActor(IActor* aActor) = 0;
+
+	virtual void LoadAsset(IActor* Actor, char* asset) = 0;
 	
 	virtual Vector2 GetScreenSize() = 0;
 

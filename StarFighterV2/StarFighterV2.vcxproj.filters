@@ -69,9 +69,6 @@
     <ClInclude Include="SMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ActorPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rapidxml\rapidxml.hpp">
       <Filter>Header Files\rapidxml</Filter>
     </ClInclude>
@@ -84,7 +81,7 @@
     <ClInclude Include="rapidxml\rapidxml_utils.hpp">
       <Filter>Header Files\rapidxml</Filter>
     </ClInclude>
-    <ClInclude Include="xmlParser.h">
+    <ClInclude Include="ActorFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,10 +116,7 @@
     <ClCompile Include="Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ActorPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="xmlParser.cpp">
+    <ClCompile Include="ActorFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

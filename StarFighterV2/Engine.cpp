@@ -4,18 +4,27 @@
 #include "Player.h"
 #include <math.h>
 
+Engine* Engine::Instance = 0;
+
 Engine::Engine():
 path(nullptr),
 display(nullptr),
-mActor(nullptr),
-mEngine(nullptr),
 OldTime(0.0),
 NewTime(0.0),
 DeltaTime(0.0)
 {
-	mEngine = this;
 	aEvent  = new Event();
 }
+
+Engine* Engine::GetInstance()
+{
+	if (Instance == 0)
+	{
+		Instance = new Engine();
+	}
+	return Instance;
+}
+
 
 int Engine::Init()
 {
@@ -65,25 +74,21 @@ int Engine::InitPath()
 	} 
 }
 
-void Engine::AddDrawActor(IActor* actor)
+void Engine::LoadAsset(IActor* Actor, char* asset)
 {	
 	ALLEGRO_BITMAP *loadbitmap;
-	if (actor != nullptr)
+	if (Actor != nullptr)
 	{
 		if(path)
 		{
 			al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-
-			//TODO::Remove Method GetSurface, get file name fro file
-			loadbitmap = al_load_bitmap(actor->GetSurface());
+			loadbitmap = al_load_bitmap(asset);
 			if(!loadbitmap)
 			{
 				al_destroy_bitmap(loadbitmap);
 				return;
 			}
-			actor->SetSprite(loadbitmap);
-			mapActor.insert(std::pair<int,ALLEGRO_BITMAP*>(pGame->GetActorId(actor), loadbitmap));
-
+			Actor->SetSprite(loadbitmap);
 		}
 	}
 }
@@ -97,7 +102,7 @@ void Engine::DeInit()
 
 void Engine::UpdateEngine(float deltaTime)
 {
-	IActor* actor;
+	IActor* actor = nullptr;
 
 	//ALLEGRO_BITMAP* buffer = al_create_bitmap(1000,600);
 
@@ -106,11 +111,9 @@ void Engine::UpdateEngine(float deltaTime)
 
 	if (aEvent != nullptr)
 	{
-		TActorMap::iterator it;
+		/*TActorMap::iterator it;
 		for(it=mapActor.begin(); it!=mapActor.end(); ++it)
 		{	
-			actor = pGame->GetActorById(it->first);
-
 			if (actor != nullptr)
 			{
 				if( path)
@@ -118,33 +121,12 @@ void Engine::UpdateEngine(float deltaTime)
 					al_convert_mask_to_alpha(it->second,(al_map_rgb(255,0,255)));
 
 					actor->DrawActor();
-					/*
-					IEmiter* emiter = dynamic_cast<IEmiter*>(actor);
-					if(emiter == 0 )
-					{
-						Vector2 pos = actor->GetPosition();
-						Vector2 rot = actor->GetRotation();
-
-						float width = al_get_bitmap_width(it->second);
-						float height = al_get_bitmap_height(it->second);
-
-						double angle = atan2(rot.GetY(),rot.GetX());
-						al_draw_rotated_bitmap(it->second,width/2,height/2,pos.GetX(),pos.GetY(),angle,0);
-					}
-					else
-					if (emiter != nullptr)
-					{
-						emiter->DrawParticle(it->second);
-					}
-					*/
 				}
 			}
-		}
+		}*/
 		aEvent->UpdateInput();
 	}
-	//al_set_target_backbuffer(display);
-	//al_draw_bitmap(buffer,0,0,0);
-	//al_destroy_bitmap(buffer);
+
 	al_flip_display();
 }
 float Engine::GetDeltaTime()
@@ -155,12 +137,10 @@ float Engine::GetDeltaTime()
 }
 Vector2 Engine::GetActorSize(int OwnerId)
 {
-	float w,h;
+	float w =0.f,h=0.f;
 	Vector2 size(0,0);
 
-	IActor* actor= pGame->GetActorById(OwnerId);
-
-	TActorMap::iterator it;
+	/*TActorMap::iterator it;
 	if (actor != nullptr)
 	{
 		it  = mapActor.find(OwnerId);
@@ -175,7 +155,7 @@ Vector2 Engine::GetActorSize(int OwnerId)
 
 			fprintf(stderr, "Field too find actor !\n");
 		}
-	}
+	}*/
 	return Vector2(0,0);
 }
 
@@ -184,14 +164,27 @@ ALLEGRO_PATH* Engine::GetPath()
 		return path;
 }
 
+vector<char> Engine::GetFile(const char* xml)
+{ 
+	char FullPath[64] = "../Actor/";
+
+	//strcat(FullPath, RELAVENT_PATH);
+	if (xml != nullptr)
+	{
+		strcat(FullPath, xml);
+	}
+
+	ifstream theFile(FullPath);
+
+	vector<char> buffer((istreambuf_iterator<char>(theFile)), istreambuf_iterator<char>());
+	buffer.push_back('\0');
+
+	return buffer;
+}
+
 Vector2 Engine::GetScreenSize()
 {
 	return Vector2 (al_get_display_height(display),al_get_display_width(display));
-}
-
-IEngine* Engine::GetEgnine()
-{
-	return mEngine;
 }
 
 IEvent* Engine::GetEvent()
@@ -211,7 +204,6 @@ float Engine::RandToFloat(float min,float max)
 
 	return dis(gen);
 }
-
 
 Engine::~Engine(void)
 {

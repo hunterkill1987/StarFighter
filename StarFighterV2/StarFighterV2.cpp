@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-	Engine *g_engine = new Engine();
+	Engine *g_engine = Engine::GetInstance();
 	Game *g_game = new Game();	
 
 	if(g_game != NULL && g_engine != NULL)
@@ -22,9 +22,7 @@ int main(int argc, char *argv[])
 			return -1;
 		}
 
-		g_engine->SetGame(g_game);
-
-		if(g_game->GameInit(g_engine->GetEgnine()) == 0)
+		if(g_game->GameInit() == 0)
 		{
 			fprintf(stderr,"Falid to Init Game !!! \n");
 			return -1;

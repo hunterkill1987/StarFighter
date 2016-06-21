@@ -71,7 +71,6 @@ public:
 	virtual void RemoveParticle();
 
 	virtual char* GetName();
-	virtual char* GetSurface();
 	virtual int GetId();
 
 	virtual bool IsAlive();

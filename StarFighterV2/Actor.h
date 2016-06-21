@@ -4,10 +4,15 @@
 #include "Player.h"
 #include "IEmiter.h"
 #include "IGame.h"
+#include "Engine.h"
 #include "Camera.h"
+#include "rapidxml\rapidxml.hpp"
 #include <map>
 #ifndef ACTOR_H
 #define ACTOR_H
+
+using namespace rapidxml;
+using namespace std;
 
 class Actor : public IActor 	 
 {	
@@ -39,7 +44,7 @@ public:
 
 	IActor*		pActor;
 	IEvent*		pEvent;
-	IEngine*	pEngine;
+	Engine*	pEngine;
 	IGame*		pGame;
 
 	Actor(unsigned int Index, EActorType ActorType = EActorBase, Vector2 pos = Vector2(0, 0));
@@ -49,7 +54,6 @@ public:
 	
 	virtual bool IsPlayer();
 
-	virtual char* GetSurface();
 	virtual char* GetName();
 
 	virtual Vector2 GetRotation();
@@ -59,7 +63,7 @@ public:
 	virtual int GetId();
 	virtual void DrawActor();
 
-	virtual void Init();
+	virtual void Init(xml_document<> &ActorParams);
 
 	void Reset();
 

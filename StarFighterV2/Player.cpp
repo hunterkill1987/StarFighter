@@ -83,32 +83,9 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 		SetPosition(newpos);
 	}
 }
-void Player::Init()
+void Player::Init(xml_document<> &ActorXml)
 {
-	this->SetSurface("herok.bmp");
-	this->SetName("Player");
-	
-	//fx = this->pEngine->GetTickCount() + 0.7;
-	//player_camera = new Camera();
-	//Player_emiter = new Emiter(this->pEngine);
-	//fprintf(stderr,"player id: %i  \n", this->GetId());
-
-	//player_camera->InitCamera(this,this->pEngine);
-
-	MaxHealth = 100;
-
-	if (Health <= 0)
-	{
-		Health = MaxHealth;
-	}
-
-	MaxShield = 100;
-
-	if (Shield <= 0)
-	{
-			Shield = MaxShield;
-	}
-
+	Actor::Init(ActorXml);
 }
 
 Player::~Player(void)

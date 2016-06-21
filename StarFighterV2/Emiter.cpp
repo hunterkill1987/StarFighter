@@ -183,7 +183,6 @@ bool Emiter::IsActive()
 }
 
 char* Emiter::GetName(){return NULL; }
-char* Emiter::GetSurface(){ return "particle.bmp"; } //TODO:: Debug stuff remuve it
 int Emiter::GetId() {return 0;}
 bool Emiter::IsAlive() {return false;}
 bool Emiter::IsPlayer() {return false;}

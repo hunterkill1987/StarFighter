@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Actor.h"
+#include "Engine.h"
 
 Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
 	Name(nullptr),
@@ -13,10 +14,16 @@ Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
 	UID = Index;
 	AType = ActorType;
 	Position = Pos;
+	pEngine = Engine::GetInstance();
 }
 
-void Actor::Init()
+void Actor::Init(xml_document<> &ActorParams)
 {
+	xml_node<> *ActorParamNode = ActorParams.first_node("Actor");
+	for (xml_node<>* ActorParam = ActorParamNode->first_node("Surface"); ActorParam; ActorParam = ActorParam->next_sibling())
+	{
+		pEngine->LoadAsset(this, ActorParam->first_attribute("path")->value());
+	}
 }
 
 void Actor::DrawActor()
@@ -74,11 +81,6 @@ bool Actor::IsPlayer()
 			return true;
 	}
 	return false;
-}
-
-char* Actor::GetSurface()
-{
-	return Surface;
 }
 
 Vector2 Actor::GetVelocity()

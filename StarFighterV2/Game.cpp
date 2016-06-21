@@ -1,51 +1,47 @@
 #include "StdAfx.h"
+#include "Engine.h"
 #include "Game.h"
 #include "Camera.h"
 #include "Player.h"
 #include <algorithm>
 #include <functional>
 Game::Game(void):
-g_engine(nullptr),
 player(nullptr)
 {
 }
 
-int Game::GameInit(IEngine* engine)
+int Game::GameInit()
 {
-	if (engine != nullptr)
+	GEngine = Engine::GetInstance();
+	Pool = ActorFactory::GetInstance();
+	if (GEngine != nullptr && Pool != nullptr)
 	{
-		g_engine = engine; 
-		/*actor->pGame = this;
-		actor->pEngine = g_engine;
-		actor->pEvent = g_engine->GetEvent();*/
+
+		xml_document<> ActorList;
+		vector<char> ActorXml = GEngine->GetFile("Actor.xml");
+		ActorList.parse<0>(&ActorXml[0]);
+		xml_node<> * ActroListRootNode = ActorList.first_node("ActorPool");
+		for (xml_node<> * ActorListNode = ActroListRootNode->first_node("Actor"); ActorListNode; ActorListNode = ActorListNode->next_sibling())
+		{
+			fprintf(stderr, "ActorXML %s \n", ActorListNode->first_attribute("ActorXml")->value());
+
+			xml_document<> Actor;
+			vector<char> ActorXml = GEngine->GetFile(ActorListNode->first_attribute("ActorXml")->value());
+			Actor.parse<0>(&ActorXml[0]);
+			xml_node<>* ActroRootNode = Actor.first_node("Actor");
+
+			Pool->CreateActor(Actor);
+
+			fprintf(stderr, "ActorName %s \n", ActroRootNode->first_attribute("name")->value());
+
+			for (xml_node<> * ActorNode = ActroRootNode->first_node("Surface"); ActorNode; ActorNode = ActorNode->next_sibling())
+			{
+				fprintf(stderr, "ActorSprite %s \n", ActorNode->first_attribute("path")->value());
+			}
+		}
+		return 1;
 	}
-	else
-	{
-		return 0;
-	}
-
-	//XML Parser test
-	XmlParser = xmlParser::GetInstance();
-	Pool = ActorPool::GetInstance();
-
-	vector<char> file = XmlParser->GetFile("../Actor/Actor.xml");
-	xml_document<> ActorXml;
-	ActorXml.parse<0>(&file[0]);
-	xml_node<>* RootNode = ActorXml.first_node("ActorPool");
-
-	for (xml_node<> * ActorNode = RootNode->first_node("Actor"); ActorNode; ActorNode = ActorNode->next_sibling())
-	{
-		fprintf(stderr, "UpdatePlayer %s !\n", ActorNode->first_attribute("ActorXml")->value());
-		char file[80] = "../Actor/";
-		strcat(file, ActorNode->first_attribute("ActorXml")->value());
-		vector<char> ActorFile = XmlParser->GetFile(file);
-	}
-
-
-	//player = reinterpret_cast<Player*>(Pool->GetResources());
-	//SpawnActor<Player*>(player,Vector2(0,0),Vector2(1,0));
-
-	return 1;
+	return 0;
 }
 
 void Game::Update(float fTime)
@@ -53,65 +49,13 @@ void Game::Update(float fTime)
 	Pool->UpdatePool(fTime);
 }
 
-void Game::SpawnFX(IEmiter* iemiter, Vector2 pos, int OwnerId)
+Engine* Game::GetEngine()
 {
-	Emiter *emiter = dynamic_cast<Emiter *>(iemiter);
-	if (emiter != nullptr)
+	if (GEngine != nullptr)
 	{
-		if (OwnerId >= 0)
-		{
-			emiter->SetOwner(OwnerId);
-		}
-		emiter->SetPosition(pos);
-		emiter->SetRotaion(Vector2(0.f, 1.f));
-		emiter->Init();
-		//SpawnActor(emiter);
+		return GEngine;
 	}
 }
-
-template<typename T> void Game::SpawnActor(T actor,Vector2 pos,Vector2 rot)
-{
-	if (actor != nullptr)
-	{
-		Player* player = dynamic_cast<Player*>(actor);
-		if (player != nullptr)
-		{
-			Pool->CreateActor(player);
-		}
-			
-			/*actor->SetPosition(pos);
-			actor->SetRotation(rot);*/
-			
-		mapActor.insert(std::pair<int, IActor*>(1, actor));
-
-		g_engine->AddDrawActor(actor);
-	}else
-	{
-		return;
-	}
-}
-IActor* Game::GetActorById(int id)
-{
-	tMapActor::iterator it;
-
-	it = mapActor.find(id);
-	if(it != mapActor.end())
-		return it->second;
-	else
-		return nullptr;
-}
-
-int Game::GetActorId(IActor* actor)
-{
-/*	tMapActor::iterator it;
-	it = find_if(mapActor.begin(),mapActor.end(),std::bind2nd(FindActor(),actor));
-	if(it != mapActor.end())
-	{
-		return it->first;
-	}*/
-	return 0;
-}
-
 Game::~Game(void)
 {
 	

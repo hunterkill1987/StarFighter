@@ -2,18 +2,28 @@
 #include <allegro5\allegro_image.h>
 #include <map>
 #include <random>
-#include "IEngine.h"
-#include "IActor.h"
+#include <string.h>
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <cstring>
+#include <memory>
+#include "rapidxml\rapidxml.hpp"
 #include "Event.h"
+#include "IActor.h"
 #include "Camera.h"
-#include "IEmiter.h"
 #include "Emiter.h"
-#include "IGame.h"
 
-//typedef std::map<IActor* , ALLEGRO_BITMAP*>		TActorMap;
-typedef std::map< int , ALLEGRO_BITMAP*>			TActorMap;
+#ifndef ENGINE_HEADER
+#define ENGINE_HEADER
 
-class Engine : public IEngine
+#define RELAVENT_PATH (( char *)"../Actor/")
+
+using namespace rapidxml;
+using namespace std;
+
+class Engine 
 {
 private:
 
@@ -25,13 +35,8 @@ private:
 	ALLEGRO_BITMAP*		backgrund;
 
 	Event				*aEvent;
-	Camera				*pCamera;
-	IGame				*pGame;
-
-	TActorMap		mapActor;
 
 	int InitPath();
-	int DrawSurface();
 	
 	void Render();
 
@@ -39,12 +44,13 @@ private:
 	float NewTime;
 	float DeltaTime;
 
+	static Engine* Instance;
+	Engine();
 public:
 
-	IActor				*mActor;
-	IEngine				*mEngine;
+	static Engine* GetInstance();
 
-	Engine();
+
 	~Engine();
 
 	virtual int Init();
@@ -53,13 +59,11 @@ public:
 
 	virtual void UpdateEngine(float deltaTime);
 
-	virtual void AddDrawActor(IActor* aActor);
+	virtual void LoadAsset(IActor* Actor, char* asset);  
 
 	virtual Vector2 GetScreenSize();
 	virtual Vector2 GetActorSize(int OwnerId);
 	virtual ALLEGRO_PATH* GetPath();
-
-	virtual IEngine* GetEgnine();
 
 	virtual IEvent* GetEvent();
 	virtual float GetCurrentTime();
@@ -67,7 +71,7 @@ public:
 	virtual float GetDeltaTime();
 
 	bool Running() {return aEvent->done; };
-	void SetGame(IGame* game) { pGame = game; };
-	virtual IGame* GetGame() { return pGame; };
-};
 
+	vector<char> GetFile(const char* xml);
+};
+#endif

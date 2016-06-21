@@ -23,12 +23,11 @@ private:
 	float fx;
 public:
 	
-	virtual void Update(float fTime);
-	virtual void Init();
-	virtual void HandleInput(IEvent* &Input, IEngine* &Engine);
+	void Update(float fTime);
+	void Init(xml_document<> &ActorXml);
+	void HandleInput(IEvent* &Input, IEngine* &Engine);
 
 	Player(unsigned int Index);
-	//Player(Actor &actor);
 	~Player(void);
 
 	Player& operator= (const Actor& actor ) { return *this; }
