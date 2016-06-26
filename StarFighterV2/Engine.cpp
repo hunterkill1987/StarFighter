@@ -104,26 +104,10 @@ void Engine::UpdateEngine(float deltaTime)
 {
 	IActor* actor = nullptr;
 
-	//ALLEGRO_BITMAP* buffer = al_create_bitmap(1000,600);
-
-	//al_set_target_bitmap(buffer);
 	al_clear_to_color(al_map_rgb(0,0,0));
 
 	if (aEvent != nullptr)
 	{
-		/*TActorMap::iterator it;
-		for(it=mapActor.begin(); it!=mapActor.end(); ++it)
-		{	
-			if (actor != nullptr)
-			{
-				if( path)
-				{
-					al_convert_mask_to_alpha(it->second,(al_map_rgb(255,0,255)));
-
-					actor->DrawActor();
-				}
-			}
-		}*/
 		aEvent->UpdateInput();
 	}
 

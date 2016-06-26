@@ -19,7 +19,7 @@ public:
 	virtual bool IsActive() = 0;
 	virtual void RemoveParticle() = 0;
 
-	virtual char* GetName()= 0;
+	virtual const char* GetName()= 0;
 	virtual char* GetSurface() = 0;
 	virtual int GetId() = 0;
 

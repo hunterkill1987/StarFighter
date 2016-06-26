@@ -182,7 +182,7 @@ bool Emiter::IsActive()
 	return e_IsActive;
 }
 
-char* Emiter::GetName(){return NULL; }
+const char* Emiter::GetName(){return NULL; }
 int Emiter::GetId() {return 0;}
 bool Emiter::IsAlive() {return false;}
 bool Emiter::IsPlayer() {return false;}

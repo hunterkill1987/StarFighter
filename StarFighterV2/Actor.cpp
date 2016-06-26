@@ -4,7 +4,6 @@
 
 Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
 	Name(nullptr),
-	Surface(nullptr),
 	Bitmap(nullptr),
 	Velocity(0,0),
 	Acceleration(0.0),
@@ -20,9 +19,13 @@ Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
 void Actor::Init(xml_document<> &ActorParams)
 {
 	xml_node<> *ActorParamNode = ActorParams.first_node("Actor");
-	for (xml_node<>* ActorParam = ActorParamNode->first_node("Surface"); ActorParam; ActorParam = ActorParam->next_sibling())
+	if (ActorParamNode != nullptr)
 	{
-		pEngine->LoadAsset(this, ActorParam->first_attribute("path")->value());
+		this->SetName(ActorParamNode->first_attribute("name")->value());
+		for (xml_node<>* ActorParam = ActorParamNode->first_node("Surface"); ActorParam; ActorParam = ActorParam->next_sibling())
+		{
+			pEngine->LoadAsset(this, ActorParam->first_attribute("path")->value());
+		}
 	}
 }
 
@@ -105,9 +108,13 @@ Vector2 Actor::GetPosition()
 	return Position;
 }
 
-char* Actor::GetName()
+const char* Actor::GetName()
 {
-	return Name;
+	if (Name != nullptr)
+	{
+		return this->Name;
+	}
+	return nullptr;
 }
 
 void Actor::SetRotation(Vector2 rot)
@@ -126,14 +133,9 @@ void Actor::SetPosition(Vector2 pos)
 		Position = pos;
 }
 
-void Actor::SetSurface (char* SurfaceName)
-{
-	Surface  = SurfaceName;
-}
-
 void Actor::SetName(char* ActorName)
 {
-	Name = ActorName;
+	Name = strdup(ActorName);
 }
 
 void Actor::SetAcceleration(float acc)

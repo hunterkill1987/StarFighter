@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Actor name= "Player" type = "Player">
+<Actor name="Player" type = "Player">
    <Surface path="herok.bmp" />
 </Actor>

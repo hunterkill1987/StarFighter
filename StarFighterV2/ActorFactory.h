@@ -10,27 +10,19 @@ using namespace std;
 class ActorFactory
 {
 private:
-	std::vector<Actor*> ActiveActor;
-	std::vector<Actor*> DeadActor;
-	static const int PoolSize = 100;
+
 	static ActorFactory* Instance;
-	
-	unsigned int Index;
-
+	vector<Actor*> ActorPool;
 	Actor::EActorType GetType(char* type);
-
+	ActorFactory(){};
 public:
-
-	ActorFactory();
-
-	static ActorFactory* GetInstance();
-
-	IActor* GetActorById(int ActorId);
-
-	void ResetActor(IActor* Acotr);
 	
-	Actor* CreateActor(xml_document<> &ActorXML);
-	void UpdatePool(float fTime);
+	static ActorFactory* GetInstance();
+	
+	void CreateActor(xml_document<> &ActorXML);
+
+	Actor* GetByClass(char* ActorClassType);
+
 
 	~ActorFactory();
 };

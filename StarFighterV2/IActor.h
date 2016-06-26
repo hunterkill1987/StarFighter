@@ -15,7 +15,7 @@ class IActor
 public:
 	virtual void Update(float fTime) = 0;
 
-	virtual char* GetName()= 0;
+	virtual const char* GetName()= 0;
 	virtual int GetId() = 0;
 
 	virtual Vector2 GetRotation() = 0;

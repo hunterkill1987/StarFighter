@@ -3,12 +3,6 @@
 
 ActorFactory* ActorFactory::Instance = 0;
 
-ActorFactory::ActorFactory() : Index(0)
-{
-	ActiveActor.reserve(PoolSize);
-	DeadActor.reserve(PoolSize);
-}
-
 ActorFactory* ActorFactory::GetInstance()
 {
 	if (Instance == 0)
@@ -18,17 +12,7 @@ ActorFactory* ActorFactory::GetInstance()
 	return Instance;
 }
 
-void ActorFactory::UpdatePool(float fTime)
-{
-	if (!ActiveActor.empty())
-	{
-		for (Actor* AActor : ActiveActor)
-		{
-			AActor->Update(fTime);
-		}
-	}
-}
-Actor* ActorFactory::CreateActor(xml_document<> &ActorXML)
+void ActorFactory::CreateActor(xml_document<> &ActorXML)
 {
 	Actor* NewActor = nullptr;
 	xml_node<> * ActorRoot = ActorXML.first_node("Actor");
@@ -37,7 +21,7 @@ Actor* ActorFactory::CreateActor(xml_document<> &ActorXML)
 		char* type = ActorRoot->first_attribute("type")->value();
  		if (type == nullptr)
 		{
-			NewActor = new Player(1);
+			NewActor = new Player(0);
 		}
 		else
 		{
@@ -45,7 +29,7 @@ Actor* ActorFactory::CreateActor(xml_document<> &ActorXML)
 			{
 				case Actor::EActorPlayer:
 									{
-										NewActor = new Player(1);
+										NewActor = new Player(0);
 										break;
 									}
 				case Actor::EActorEnemy: break;
@@ -56,9 +40,8 @@ Actor* ActorFactory::CreateActor(xml_document<> &ActorXML)
 	if (NewActor != nullptr)
 	{
 		NewActor->Init(ActorXML);
-		return NewActor;
 	}
-	return nullptr;
+	ActorPool.push_back(NewActor);
 }
 
 Actor::EActorType ActorFactory::GetType(char* type)
@@ -83,14 +66,24 @@ Actor::EActorType ActorFactory::GetType(char* type)
 
 	return Type;
 }
-
-IActor* ActorFactory::GetActorById(int ActorId)
+ 
+Actor* ActorFactory::GetByClass(char* ClassType)
 {
+	if (ClassType != nullptr)
+	{
+		std::string ClassTypeString = ClassType;
+		for (Actor* ActorClass : ActorPool)
+		{
+			std::string ActorClassString = ActorClass->GetName();
+			if (ClassTypeString == ActorClassString)
+			{
+				return ActorClass;
+			}
+		}
+	}
 	return nullptr;
 }
 
 ActorFactory::~ActorFactory()
 {
-	for (Actor* aa : ActiveActor) delete aa;
-	for (Actor* ua : DeadActor) delete ua;
 }

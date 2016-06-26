@@ -70,7 +70,7 @@ public:
 	virtual bool IsActive();
 	virtual void RemoveParticle();
 
-	virtual char* GetName();
+	virtual const char* GetName();
 	virtual int GetId();
 
 	virtual bool IsAlive();

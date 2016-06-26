@@ -19,7 +19,6 @@ class Actor : public IActor
 private:
 
 	char* Name;
-	char* Surface;
 	unsigned int UID;
 
 	float Time;
@@ -44,7 +43,7 @@ public:
 
 	IActor*		pActor;
 	IEvent*		pEvent;
-	Engine*	pEngine;
+	Engine*		pEngine;
 	IGame*		pGame;
 
 	Actor(unsigned int Index, EActorType ActorType = EActorBase, Vector2 pos = Vector2(0, 0));
@@ -54,7 +53,7 @@ public:
 	
 	virtual bool IsPlayer();
 
-	virtual char* GetName();
+	virtual const char* GetName();
 
 	virtual Vector2 GetRotation();
 
@@ -76,11 +75,8 @@ public:
 	void SetVelocity(Vector2 vel);
 	void SetPosition(Vector2 pos);
 	void SetAcceleration(float acc);
-	//TODO :: Remove unused code
-	//----
-	void SetSurface (char* surfaceName);
-	//----
-	void SetName(char* Name);
+
+	void SetName(char* ClassName);
 
 	long long int GetUID();
 	void SetUID(long long int NewUID);
