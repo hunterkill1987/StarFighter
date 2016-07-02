@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Emiter.h"
 #include "ActorFactory.h"
+#include "ActorPool.h"
 #include <map>
 
 using namespace rapidxml;
@@ -17,8 +18,8 @@ class Game
 private:
 
 	Engine* GEngine;
-	ActorFactory* Pool;
-
+	ActorFactory* ActorManager;
+	ActorPool* Pool;
 public:
 
 	Game(void);

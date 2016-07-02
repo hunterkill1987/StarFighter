@@ -78,6 +78,8 @@ public:
 
 	void SetName(char* ClassName);
 
+	Actor* Clone(){ return new Actor(*this);  }
+
 	long long int GetUID();
 	void SetUID(long long int NewUID);
 	virtual void SetSprite(ALLEGRO_BITMAP* Sprite);

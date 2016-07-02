@@ -30,6 +30,6 @@ public:
 	Player(unsigned int Index);
 	~Player(void);
 
-	Player& operator= (const Actor& actor ) { return *this; }
+	Actor* Clone(){ return new Player(*this); }
 };
 

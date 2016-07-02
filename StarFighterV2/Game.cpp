@@ -12,8 +12,9 @@ Game::Game(void)
 int Game::GameInit()
 {
 	GEngine = Engine::GetInstance();
-	Pool = ActorFactory::GetInstance();
-	if (GEngine != nullptr && Pool != nullptr)
+	ActorManager = ActorFactory::GetInstance();
+	Pool = ActorPool::GetInstance();
+	if (GEngine != nullptr && ActorManager != nullptr)
 	{
 
 		xml_document<> ActorList;
@@ -27,9 +28,9 @@ int Game::GameInit()
 			Actor.parse<0>(&ActorXml[0]);
 			xml_node<>* ActroRootNode = Actor.first_node("Actor");
 
-			Pool->CreateActor(Actor);
+			ActorManager->CreateActor(Actor);
 		}
-
+		SpawnActor("Player", Vector2(0, 0), Vector2(0, 0));
 		return 1;
 	}
 	return 0;
@@ -37,6 +38,20 @@ int Game::GameInit()
 
 void Game::Update(float fTime)
 {
+}
+
+void Game::SpawnActor(char* ActorName,Vector2 rotation,Vector2 position)
+{
+	if (ActorName != nullptr)
+	{
+		Actor* SpawnActor = ActorManager->GetByClass(ActorName);
+		if (SpawnActor != nullptr) 
+		{
+			SpawnActor->SetPosition(position);
+			SpawnActor->SetRotation(rotation);
+			Pool->AddNewActor(SpawnActor);
+		}
+	}
 }
 
 Game::~Game(void)
