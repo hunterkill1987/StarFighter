@@ -1,5 +1,5 @@
 #pragma once
-#include "IActor.h"
+#include "Player.h"
 #include "Actor.h"
 #include "rapidxml\rapidxml.hpp"
 #include <list>

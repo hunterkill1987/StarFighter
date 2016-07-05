@@ -16,14 +16,7 @@ Player::Player(unsigned int Index) : Actor(EActorPlayer),
 
 void Player::Update(float deltaTime)
 {
-	if (this->pEngine->GetTickCount() > fx && fx > 0.0)
-	{
-		fx = 0.f;
-		//this->pGame->SpawnFX(Player_emiter, this->GetPosition(), this->GetId());
-	}
-	if (player_camera != NULL)
-		player_camera->UpdateCamera();
-
+	Actor::Update(deltaTime);
 }
 
 void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
@@ -33,9 +26,9 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 
 	if (Input != nullptr && Engine != nullptr)
 	{
-		int input = Input->GetInput();
+		int input = 0;
 
-		if (input & (1 << LEFT))
+		if (input )
 		{
 			Angle += Engine->GetDeltaTime() * 3.14f;
 			if (Angle > 3.14f) Angle -= 3.14 * 2.f;
@@ -43,7 +36,7 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 			SetRotation(rotation);
 		}
 
-		if (input & (1 << RIGHT))
+		if (input )
 		{
 			Angle -= Engine->GetDeltaTime() * 3.14f;
 			if (Angle < -3.14f) Angle += 3.14 * 2.f;
@@ -51,19 +44,19 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 			SetRotation(rotation);
 		}
 
-		if (input & (1 << UP))
+		if (input )
 		{
 			rotation = Vector2(GetRotation().GetX(), GetRotation().GetY());
 			velocity = velocity + rotation * 4 * Engine->GetDeltaTime();
 		}
 
-		if (input & (1 << DOWN))
+		if (input )
 		{
 			rotation = Vector2(-1 * GetRotation().GetX(), -1 * GetRotation().GetY());
 			velocity = velocity + rotation * 4 * Engine->GetDeltaTime();
 		}
 
-		if (input & (1 << FIRE))
+		if (input )
 		{
 
 		}

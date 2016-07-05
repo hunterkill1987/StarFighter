@@ -21,7 +21,6 @@ public:
 
 	virtual const char* GetName()= 0;
 	virtual char* GetSurface() = 0;
-	virtual int GetId() = 0;
 
 	virtual void DrawActor() = 0;
 	virtual void SetSprite(ALLEGRO_BITMAP* Sprite) = 0;

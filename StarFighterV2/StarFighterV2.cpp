@@ -3,8 +3,8 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_image.h>
 #include "Engine.h"
-#include "Game.h"
-#include "Event.h"
+#include "World.h"
+#include "InputManager.h"
 #include "rapidxml\rapidxml.hpp"
 
 using namespace rapidxml;
@@ -13,16 +13,17 @@ using namespace std;
 int main(int argc, char *argv[]) 
 {
 	Engine *g_engine = Engine::GetInstance();
-	Game *g_game = new Game();	
+	World* World = World::GetInstance();
 
-	if(g_game != NULL && g_engine != NULL)
+	if(World != NULL && g_engine != NULL)
 	{
+		
 		if(g_engine->Init() == 0) {
 			fprintf(stderr,"Falid to Init Engine !!! \n");
 			return -1;
-		}
+	 	}
 
-		if(g_game->GameInit() == 0)
+		if(World->WorldInit() == 0)
 		{
 			fprintf(stderr,"Falid to Init Game !!! \n");
 			return -1;
@@ -37,9 +38,9 @@ int main(int argc, char *argv[])
 			newTime = al_get_time();
 			float deltaTime = newTime - oldTime;
 		
-			if( g_engine->GetEvent()->Tick())
+			if( !redraw)
 			{ 
-				g_game->Update(deltaTime);
+				World->Update(deltaTime);
 				redraw = true;
 			}
 
@@ -50,8 +51,7 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-	delete g_game;
-	g_engine->DeInit();
+	delete World;
 	delete g_engine;
 
 	return 0;

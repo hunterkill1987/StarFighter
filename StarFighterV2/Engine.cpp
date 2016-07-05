@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Engine.h"
-#include "Event.h"
-#include "Player.h"
+#include "World.h"
+#include "ActorPool.h"
 #include <math.h>
 
 Engine* Engine::Instance = 0;
@@ -13,7 +13,6 @@ OldTime(0.0),
 NewTime(0.0),
 DeltaTime(0.0)
 {
-	aEvent  = new Event();
 }
 
 Engine* Engine::GetInstance()
@@ -28,6 +27,8 @@ Engine* Engine::GetInstance()
 
 int Engine::Init()
 {
+	Event = EventManager::GetInstance();
+
 	if(!al_init()) {
 	   fprintf(stderr, "failed to initialize allegro!\n");
 	   return 0;
@@ -50,12 +51,11 @@ int Engine::Init()
 		return -1;
 	}
 	
-	if(aEvent)
+	if (Event != nullptr)
 	{
-		aEvent->Init();
-		
+		Event->Init();
 	}
-	//al_set_target_bitmap(al_get_backbuffer(display));
+
 	return 1;
 }
 
@@ -93,22 +93,23 @@ void Engine::LoadAsset(IActor* Actor, char* asset)
 	}
 }
 
-void Engine::DeInit()
-{
-	al_destroy_path(path);
-	al_destroy_display(display);
-	delete aEvent;
-}
-
 void Engine::UpdateEngine(float deltaTime)
 {
-	IActor* actor = nullptr;
+	World* wWorld = World::GetInstance();
+	if (Event != nullptr)
+	{
+		Event->Update(deltaTime);
+	}
 
 	al_clear_to_color(al_map_rgb(0,0,0));
 
-	if (aEvent != nullptr)
+	if (wWorld != nullptr)
 	{
-		aEvent->UpdateInput();
+		ActorPool* Pool = ActorPool::GetInstance();
+		if (Pool != nullptr)
+		{
+			Pool->DrwaActorPool();
+		}
 	}
 
 	al_flip_display();
@@ -119,6 +120,8 @@ float Engine::GetDeltaTime()
 	NewTime = al_get_time();
 	return DeltaTime = NewTime - OldTime;
 }
+
+
 Vector2 Engine::GetActorSize(int OwnerId)
 {
 	float w =0.f,h=0.f;
@@ -152,7 +155,6 @@ vector<char> Engine::GetFile(const char* xml)
 { 
 	char FullPath[64] = "../Actor/";
 
-	//strcat(FullPath, RELAVENT_PATH);
 	if (xml != nullptr)
 	{
 		strcat(FullPath, xml);
@@ -171,11 +173,6 @@ Vector2 Engine::GetScreenSize()
 	return Vector2 (al_get_display_height(display),al_get_display_width(display));
 }
 
-IEvent* Engine::GetEvent()
-{
-		return aEvent;
-}
-
 float Engine::GetCurrentTime()
 {
 	return (float)al_get_time();
@@ -191,4 +188,7 @@ float Engine::RandToFloat(float min,float max)
 
 Engine::~Engine(void)
 {
+	al_destroy_path(path);
+	al_destroy_display(display);
+	delete Event;
 }

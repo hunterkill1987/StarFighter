@@ -1,15 +1,20 @@
 #include "StdAfx.h"
 #include "Engine.h"
-#include "Game.h"
-#include "Camera.h"
-#include "Player.h"
-#include <algorithm>
+#include "World.h"
 #include <functional>
-Game::Game(void)
+
+World* World::Instance = 0;
+
+World* World::GetInstance()
 {
+	if (Instance == 0)
+	{
+		Instance = new World();
+	}
+	return Instance;
 }
 
-int Game::GameInit()
+int World::WorldInit()
 {
 	GEngine = Engine::GetInstance();
 	ActorManager = ActorFactory::GetInstance();
@@ -30,17 +35,21 @@ int Game::GameInit()
 
 			ActorManager->CreateActor(Actor);
 		}
-		SpawnActor("Player", Vector2(0, 0), Vector2(0, 0));
+		SpawnActor("Player", Vector2(300, 300), Vector2(0, 0));
 		return 1;
 	}
 	return 0;
 }
 
-void Game::Update(float fTime)
+void World::Update(float deltaTime)
 {
+	if (Pool != nullptr)
+	{
+		Pool->UpdatePool(deltaTime);
+	}
 }
 
-void Game::SpawnActor(char* ActorName,Vector2 rotation,Vector2 position)
+void World::SpawnActor(char* ActorName, Vector2 position, Vector2 rotation)
 {
 	if (ActorName != nullptr)
 	{
@@ -54,7 +63,8 @@ void Game::SpawnActor(char* ActorName,Vector2 rotation,Vector2 position)
 	}
 }
 
-Game::~Game(void)
+World::~World(void)
 {
-	
+	delete Pool;
+	delete ActorManager;
 }

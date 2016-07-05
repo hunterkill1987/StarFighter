@@ -1,8 +1,7 @@
 #include "StdAfx.h"
 #include "Actor.h"
-#include "Engine.h"
 
-Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
+Actor::Actor(EActorType ActorType) :
 	Name(nullptr),
 	Bitmap(nullptr),
 	Velocity(0,0),
@@ -10,10 +9,20 @@ Actor::Actor(unsigned int Index, EActorType ActorType , Vector2 Pos ) :
 	Rotation(0,0),
 	Position(0,0)
 {
-	UID = Index;
 	AType = ActorType;
-	Position = Pos;
 	pEngine = Engine::GetInstance();
+}
+
+Actor::Actor(Actor& CopyActor):
+	Name(nullptr),
+	Bitmap(nullptr),
+	Velocity(0, 0),
+	Acceleration(0.0),
+	Rotation(0, 0),
+	Position(0, 0)
+{
+	Bitmap = CopyActor.Bitmap;
+	Name = CopyActor.Name;
 }
 
 void Actor::Init(xml_document<> &ActorParams)
@@ -39,6 +48,7 @@ void Actor::DrawActor()
 		float width = al_get_bitmap_width(Bitmap);
 		float height = al_get_bitmap_height(Bitmap);
 
+		al_convert_mask_to_alpha(Bitmap, (al_map_rgb(255, 0, 255)));
 		double angle = atan2(rot.GetY(), rot.GetX());
 		al_draw_rotated_bitmap(Bitmap, width / 2, height / 2, pos.GetX(), pos.GetY(), angle, 0);
 	}
@@ -56,7 +66,6 @@ void Actor::SetUID(long long int NewUID)
 void Actor::Update(float fTime)
 {
 	Time = fTime;
-
 }
 
 void Actor::MoveActor()
@@ -78,11 +87,6 @@ void Actor::StopFire()
 
 bool Actor::IsPlayer()
 {
-	IActor *player = dynamic_cast<Player *>(this);
-	if(player != 0)
-	{
-			return true;
-	}
 	return false;
 }
 
@@ -149,12 +153,6 @@ void Actor::SetAcceleration(float acc)
 		Acceleration = 0.0f;
 	}
 }
-
-int Actor::GetId()
-{
-	return this->pGame->GetActorId(this);
-}
-
 
 void Actor::SetSprite(ALLEGRO_BITMAP* Sprite)
 {

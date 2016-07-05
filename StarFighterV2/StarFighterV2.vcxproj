@@ -93,8 +93,9 @@
     <ClInclude Include="ActorPool.h" />
     <ClInclude Include="Emiter.h" />
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="World.h" />
     <ClInclude Include="IActor.h" />
     <ClInclude Include="IEmiter.h" />
     <ClInclude Include="IEngine.h" />
@@ -116,8 +117,9 @@
     <ClCompile Include="ActorPool.cpp" />
     <ClCompile Include="Emiter.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Event.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="World.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StarFighterV2.cpp" />

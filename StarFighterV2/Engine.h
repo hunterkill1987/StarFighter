@@ -10,10 +10,8 @@
 #include <cstring>
 #include <memory>
 #include "rapidxml\rapidxml.hpp"
-#include "Event.h"
 #include "IActor.h"
-#include "Camera.h"
-#include "Emiter.h"
+#include "EventManager.h"
 
 #ifndef ENGINE_HEADER
 #define ENGINE_HEADER
@@ -34,7 +32,7 @@ private:
 	ALLEGRO_BITMAP*		*bitmap;
 	ALLEGRO_BITMAP*		backgrund;
 
-	Event				*aEvent;
+	EventManager* Event;
 
 	int InitPath();
 	
@@ -54,8 +52,6 @@ public:
 	~Engine();
 
 	virtual int Init();
-	
-	virtual void DeInit();
 
 	virtual void UpdateEngine(float deltaTime);
 
@@ -65,12 +61,11 @@ public:
 	virtual Vector2 GetActorSize(int OwnerId);
 	virtual ALLEGRO_PATH* GetPath();
 
-	virtual IEvent* GetEvent();
 	virtual float GetCurrentTime();
 	virtual float RandToFloat(float a,float b);
 	virtual float GetDeltaTime();
 
-	bool Running() {return aEvent->done; };
+	bool Running() {return false; };
 
 	vector<char> GetFile(const char* xml);
 };

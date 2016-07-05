@@ -1,11 +1,5 @@
-#include "IActor.h"
-#include "IEvent.h"
-#include "IEngine.h"
-#include "Player.h"
-#include "IEmiter.h"
-#include "IGame.h"
 #include "Engine.h"
-#include "Camera.h"
+#include "IActor.h"
 #include "rapidxml\rapidxml.hpp"
 #include <map>
 #ifndef ACTOR_H
@@ -41,12 +35,10 @@ public:
 
 	EActorType AType;
 
-	IActor*		pActor;
-	IEvent*		pEvent;
 	Engine*		pEngine;
-	IGame*		pGame;
 
-	Actor(unsigned int Index, EActorType ActorType = EActorBase, Vector2 pos = Vector2(0, 0));
+	Actor(EActorType ActorType = EActorBase);
+	Actor(Actor& CopyActor);
 
 	virtual ~Actor(void);
 	virtual void Update(float fTime);
@@ -59,7 +51,6 @@ public:
 
 	virtual Vector2 GetVelocity();
 	virtual Vector2 GetPosition();
-	virtual int GetId();
 	virtual void DrawActor();
 
 	virtual void Init(xml_document<> &ActorParams);

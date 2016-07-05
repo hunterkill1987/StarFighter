@@ -71,7 +71,6 @@ public:
 	virtual void RemoveParticle();
 
 	virtual const char* GetName();
-	virtual int GetId();
 
 	virtual bool IsAlive();
 	virtual bool IsPlayer();
