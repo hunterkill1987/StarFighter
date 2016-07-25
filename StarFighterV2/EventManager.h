@@ -1,33 +1,79 @@
 #include <allegro5\allegro.h>
 #include <utility>
-#include <stack>
+#include <vector>
+#include <map>
 #include "InputManager.h"
 #pragma once
 
 const float FPS = 60;
 
-template<typename Target>
-class EventHandler
+class EventHandlerBase
+{
+public:
+	virtual void Execute() = 0;
+};
+
+template<typename TargetT>
+class EventHandler : public EventHandlerBase
 {
 private:
-	typedef void (Target::*method_t)(short);
-	Target* Owner;
+	typedef void (TargetT::*method_t)();
+	TargetT* Object;
 	method_t Method;
 public:
-	EventHandler(Target* ActorOwner, method_t EventMethod)
-		:Owner(ActorOwner), Method(EventMethod)
+	EventHandler(TargetT* ObjectT, method_t EventMethod)
+		:Object(ObjectT), Method(EventMethod)
 	{
 	}
+
+	void Execute() override
+	{
+		(Object->*Method)();
+	}
+};
+
+class Event
+{
+private:
+
+	std::map<int, EventHandlerBase*> EventHandlerMap;
+	int count;
+
+public:
+
+	template<typename TargetT>
+	void AddListener(TargetT* Object, void (TargetT::*Method)())
+	{
+		EventHandlerMap[count] = new EventHandler<TargetT>(Object, Method);
+		count++;
+	}
+	
+	void Execute()
+	{
+		for (auto& Event : EventHandlerMap)
+		{
+			Event.second->Execute();
+		}
+	}
+
 };
 
 class EventManager
 {
 private:
 
+	struct EventType
+	{
+		Event* Event;
+		char* name;
+	};
+
 	InputManager* Input;
 
 	ALLEGRO_EVENT_QUEUE		*event_queue;
 	ALLEGRO_TIMER			*timer;
+
+	std::vector<EventType> Events;
 
 	static EventManager* Instance;
 	EventManager() {}
@@ -37,11 +83,16 @@ public:
 
 	void Init();
 
-	//template<typename Target>
-	//void Register(Target* Owner, void (Target::*method_t)(short));
+	void RegisterEvent(char* Name);
 
+	template<typename TargetT>
+	bool Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name);
+
+	void FireEvent(char* Name);
 
 	void Update(float DeltaTime);
 	~EventManager();
+
+	void TestEvnet();
 };
 

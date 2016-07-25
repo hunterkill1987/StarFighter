@@ -29,13 +29,62 @@ void EventManager::Init()
 
 	Input = InputManager::GetInstance();
 	Input->Init(event_queue);
+	RegisterEvent("Test");
+	Bind(this, &EventManager::TestEvnet, "Test");
 }
 
+void EventManager::TestEvnet()
+{
+	fprintf(stderr, "Event Test \n");
+}
 void EventManager::Update(float deltaTime)
 {
 	if (Input != nullptr)
 	{
 		Input->UpdateInput();
+		FireEvent("Test");
+	}
+
+}
+
+void EventManager::RegisterEvent(char* Name)
+{
+	for (EventType Event : Events)
+	{
+		if (strcmp(Event.name, Name) == 0)
+		{
+			return;
+		}
+	}
+
+	EventType e;
+	e.Event = new Event();
+	e.name = Name;
+	Events.push_back(e);
+}
+
+template<typename TargetT>
+bool EventManager::Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name)
+{
+	for (EventType Event : Events)
+	{
+		if (strcmp(Event.name, Name) == 0)
+		{
+			Event.Event->AddListener(Object,method_t);
+			return true;
+		}
+	}
+	return false;
+} 
+
+void EventManager::FireEvent(char* Name)
+{
+	for (EventType Event : Events)
+	{
+		if (strcmp(Event.name, Name) == 0)
+		{
+			Event.Event->Execute();
+		}
 	}
 }
 

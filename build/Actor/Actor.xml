@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ActorPool>
-   <Actor ActorXml="Player.xml" >
-   </Actor>
+   <Actor ActorXml="Player.xml" ></Actor>
+   <Actor ActorXml="Enemy1.xml" ></Actor>
+   <Actor ActorXml="Enemy2.xml" ></Actor>
+   <Actor ActorXml="Enemy3.xml" ></Actor>
+   <Actor ActorXml="Enemy4.xml" ></Actor>
 </ActorPool>
