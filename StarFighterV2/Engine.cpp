@@ -28,6 +28,7 @@ Engine* Engine::GetInstance()
 int Engine::Init()
 {
 	Event = EventManager::GetInstance();
+	Input = InputManager::GetInstance();
 
 	if(!al_init()) {
 	   fprintf(stderr, "failed to initialize allegro!\n");
@@ -51,9 +52,10 @@ int Engine::Init()
 		return -1;
 	}
 	
-	if (Event != nullptr)
+	if (Event != nullptr && Input != nullptr)
 	{
 		Event->Init();
+		Input->Init(Event->GetEventQueue());
 	}
 
 	return 1;
@@ -96,9 +98,11 @@ void Engine::LoadAsset(IActor* Actor, char* asset)
 void Engine::UpdateEngine(float deltaTime)
 {
 	World* wWorld = World::GetInstance();
-	if (Event != nullptr)
+
+	if (Event != nullptr && Input != nullptr)
 	{
 		Event->Update(deltaTime);
+		Input->UpdateInput();
 	}
 
 	al_clear_to_color(al_map_rgb(0,0,0));
@@ -178,6 +182,14 @@ float Engine::GetCurrentTime()
 	return (float)al_get_time();
 }
 
+EventManager* Engine::GetEventManager()
+{
+	if (Event != nullptr)
+	{
+		return  Event;
+	}
+	return nullptr;
+}
 float Engine::RandToFloat(float min,float max)
 {
 	std::mt19937		gen(random());

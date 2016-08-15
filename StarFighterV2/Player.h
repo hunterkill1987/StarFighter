@@ -1,7 +1,14 @@
 #pragma once
-#include "actor.h"
+#include "Actor.h"
 #include "IEvent.h"
 #include "Camera.h"
+#include "EventManager.h"
+#ifndef PLAYER_H
+#define PLAYER_H
+
+using namespace rapidxml;
+using namespace std;
+
 class Player :
 	public Actor
 {
@@ -23,13 +30,17 @@ private:
 	float fx;
 public:
 	
-	void Update(float fTime);
-	void Init(xml_document<> &ActorXml);
+	virtual void Update(float fTime) override;
+	virtual void Init(xml_document<> &ActorXml) override;
 	void HandleInput(IEvent* &Input, IEngine* &Engine);
 
 	Player(unsigned int Index);
 	~Player(void);
 
-	Player* Clone(){ return new Player(*this); }
+	void MoveLeft();
+	void MoveRight();
+	void Move();
+	void Back();
 };
 
+#endif

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "InputManager.h"
+#include "Engine.h"
 
 InputManager* InputManager::Instance = 0;
 
@@ -27,23 +28,43 @@ int InputManager::Init(ALLEGRO_EVENT_QUEUE *event_queue)
 	}
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
+	InputEvent = EventManager::GetInstance();
+
+	//TODO:Bind buttons to actions
+	Engine* GEngine = Engine::GetInstance();
+	if (GEngine != nullptr)
+	{
+		xml_document<> BindingList;
+		vector<char> BindingXml = GEngine->GetFile("BindAction.xml");
+		BindingList.parse<0>(&BindingXml[0]);
+		xml_node<> * BindingListRootNode = BindingList.first_node("Binding");
+		for (xml_node<> * BindingListNode = BindingListRootNode->first_node("Bind"); BindingListNode; BindingListNode = BindingListNode->next_sibling())
+		{
+
+		}
+	}
+
+	//InputEvent->RegisterEvent("MoveRight");
+	//InputEvent->RegisterEvent("MoveLeft");
+	//InputEvent->RegisterEvent("Move");
+	//InputEvent->RegisterEvent("Back");
 
 	return 0;
 }
 
 void InputManager::KeyPressed(ALLEGRO_EVENT &Event,int &KeyCode)
 {
-	fprintf(stderr, "Init KeyPressed \n");
+	//InputEvent->FireEvent("Move");
 }
 
 void InputManager::KeyReleased(ALLEGRO_EVENT &Event, int &KeyCode)
 {
-	fprintf(stderr, "Init KeyReleased \n");
+	//fprintf(stderr, "Init KeyReleased \n");
 }
 
 void InputManager::KeyDown(ALLEGRO_EVENT &Event, int &KeyCode)
 {
-	fprintf(stderr, "Init KeyDown \n");
+	//InputEvent->FireEvent("Move");
 }
 
 

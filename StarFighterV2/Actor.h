@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "IActor.h"
 #include "rapidxml\rapidxml.hpp"
+#include "EventManager.h"
 #include <map>
 #ifndef ACTOR_H
 #define ACTOR_H

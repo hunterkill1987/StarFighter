@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Binding>
+   <Bind BindButton = "W" BindAction = "OnMove" ></Bind>
+   <Bind BindButton = "S" BindAction = "OnBack" ></Bind>
+   <Bind BindButton = "A" BindAction = "OnMoveLeft" ></Bind>
+   <Bind BindButton = "D" BindAction = "OnMoveRigth" ></Bind>
+   <Bind BindButton = "Space" BindAction = "OnStartFire" ></Bind>
+</Binding>

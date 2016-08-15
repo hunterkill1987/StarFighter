@@ -24,13 +24,13 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 	Vector2 rotation = this->GetRotation();
 	Vector2 velocity = this->GetVelocity();
 
-	if (Input != nullptr && Engine != nullptr)
+	if (Input != nullptr && pEngine != nullptr)
 	{
 		int input = 0;
 
 		if (input )
 		{
-			Angle += Engine->GetDeltaTime() * 3.14f;
+			Angle += pEngine->GetDeltaTime() * 3.14f;
 			if (Angle > 3.14f) Angle -= 3.14 * 2.f;
 			rotation = Vector2(cosf(Angle), sinf(Angle));
 			SetRotation(rotation);
@@ -38,7 +38,7 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 
 		if (input )
 		{
-			Angle -= Engine->GetDeltaTime() * 3.14f;
+			Angle -= pEngine->GetDeltaTime() * 3.14f;
 			if (Angle < -3.14f) Angle += 3.14 * 2.f;
 			rotation = Vector2(cosf(Angle), sinf(Angle));
 			SetRotation(rotation);
@@ -47,13 +47,13 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 		if (input )
 		{
 			rotation = Vector2(GetRotation().GetX(), GetRotation().GetY());
-			velocity = velocity + rotation * 4 * Engine->GetDeltaTime();
+			velocity = velocity + rotation * 4 * pEngine->GetDeltaTime();
 		}
 
 		if (input )
 		{
 			rotation = Vector2(-1 * GetRotation().GetX(), -1 * GetRotation().GetY());
-			velocity = velocity + rotation * 4 * Engine->GetDeltaTime();
+			velocity = velocity + rotation * 4 * pEngine->GetDeltaTime();
 		}
 
 		if (input )
@@ -73,7 +73,38 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 void Player::Init(xml_document<> &ActorXml)
 {
 	Actor::Init(ActorXml);
+	if (pEngine != nullptr)
+	{
+		pEngine->GetEventManager()->Bind(this, &Player::MoveLeft, "MoveLeft");
+		pEngine->GetEventManager()->Bind(this, &Player::MoveRight, "MoveRight");
+		pEngine->GetEventManager()->Bind(this, &Player::Move, "Move");
+		pEngine->GetEventManager()->Bind(this, &Player::Back, "Back");
+	}
+
+	Actor::Init(ActorXml);
 }
+
+void Player::MoveLeft()
+{
+
+}
+
+void Player::MoveRight()
+{
+
+}
+
+
+void Player::Move()
+{
+	fprintf(stderr, "Move \n");
+}
+
+void Player::Back()
+{
+
+}
+
 
 Player::~Player(void)
 {

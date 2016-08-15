@@ -26,24 +26,10 @@ void EventManager::Init()
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 
 	al_start_timer(timer);
-
-	Input = InputManager::GetInstance();
-	Input->Init(event_queue);
-	RegisterEvent("Test");
-	Bind(this, &EventManager::TestEvnet, "Test");
 }
 
-void EventManager::TestEvnet()
-{
-	fprintf(stderr, "Event Test \n");
-}
 void EventManager::Update(float deltaTime)
 {
-	if (Input != nullptr)
-	{
-		Input->UpdateInput();
-		FireEvent("Test");
-	}
 
 }
 
@@ -63,20 +49,6 @@ void EventManager::RegisterEvent(char* Name)
 	Events.push_back(e);
 }
 
-template<typename TargetT>
-bool EventManager::Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name)
-{
-	for (EventType Event : Events)
-	{
-		if (strcmp(Event.name, Name) == 0)
-		{
-			Event.Event->AddListener(Object,method_t);
-			return true;
-		}
-	}
-	return false;
-} 
-
 void EventManager::FireEvent(char* Name)
 {
 	for (EventType Event : Events)
@@ -88,6 +60,14 @@ void EventManager::FireEvent(char* Name)
 	}
 }
 
+ALLEGRO_EVENT_QUEUE* EventManager::GetEventQueue()
+{
+	if (event_queue != nullptr)
+	{
+		return event_queue;
+	}
+	return nullptr;
+}
 EventManager::~EventManager()
 {
 }

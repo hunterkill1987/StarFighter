@@ -12,6 +12,7 @@
 #include "rapidxml\rapidxml.hpp"
 #include "IActor.h"
 #include "EventManager.h"
+#include "InputManager.h"
 
 #ifndef ENGINE_HEADER
 #define ENGINE_HEADER
@@ -33,6 +34,7 @@ private:
 	ALLEGRO_BITMAP*		backgrund;
 
 	EventManager* Event;
+	InputManager* Input;
 
 	int InitPath();
 	
@@ -68,5 +70,7 @@ public:
 	bool Running() {return false; };
 
 	vector<char> GetFile(const char* xml);
+
+	EventManager* GetEventManager();
 };
 #endif

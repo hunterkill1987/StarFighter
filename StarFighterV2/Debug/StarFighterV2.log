@@ -1,15 +1,15 @@
-﻿Build started 2016-07-25 23:04:51.
+﻿Build started 2016-08-14 09:04:39.
      1>Project "D:\Projects\StarFighterV2\StarFighterV2\StarFighterV2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\Projects\StarFighterV2\StarFighterV2\allegro\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\StarFighterV2-Debug.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Actor.cpp ActorFactory.cpp ActorPool.cpp Engine.cpp EventManager.cpp Player.cpp StarFighterV2.cpp World.cpp
-         EventManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\Projects\StarFighterV2\StarFighterV2\allegro\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\StarFighterV2-Debug.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Actor.cpp ActorFactory.cpp ActorPool.cpp Engine.cpp InputManager.cpp Player.cpp StarFighterV2.cpp World.cpp
+         Player.cpp
+         InputManager.cpp
          Generating Code...
          Compiling...
          World.cpp
          StarFighterV2.cpp
-         Player.cpp
          Engine.cpp
-     1>d:\projects\starfighterv2\starfighterv2\engine.cpp(160): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\projects\starfighterv2\starfighterv2\engine.cpp(164): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(118) : see declaration of 'strcat'
          ActorPool.cpp
          ActorFactory.cpp
@@ -37,4 +37,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:08.81
+Time Elapsed 00:00:10.25

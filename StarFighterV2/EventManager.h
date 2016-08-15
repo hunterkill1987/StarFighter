@@ -1,9 +1,12 @@
+#pragma once
+#ifndef EVENTMANAGER_H
+#define EVENTMANAGER_H
 #include <allegro5\allegro.h>
 #include <utility>
 #include <vector>
 #include <map>
-#include "InputManager.h"
-#pragma once
+
+using namespace std;
 
 const float FPS = 60;
 
@@ -68,8 +71,6 @@ private:
 		char* name;
 	};
 
-	InputManager* Input;
-
 	ALLEGRO_EVENT_QUEUE		*event_queue;
 	ALLEGRO_TIMER			*timer;
 
@@ -86,13 +87,26 @@ public:
 	void RegisterEvent(char* Name);
 
 	template<typename TargetT>
-	bool Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name);
+	bool Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name)
+	{
+		for (EventType Event : Events)
+		{
+			if (strcmp(Event.name, Name) == 0)
+			{
+				Event.Event->AddListener(Object, method_t);
+				return true;
+			}
+		}
+		return false;
+	}
 
 	void FireEvent(char* Name);
 
 	void Update(float DeltaTime);
-	~EventManager();
 
-	void TestEvnet();
+	ALLEGRO_EVENT_QUEUE* GetEventQueue();
+
+	~EventManager();
 };
 
+#endif

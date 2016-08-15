@@ -1,7 +1,12 @@
 #include <allegro5\allegro.h>
+#include "rapidxml\rapidxml.hpp"
+#include "EventManager.h"
 #pragma once
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
+
+using namespace rapidxml;
+using namespace std;
 
 class InputManager
 {
@@ -11,6 +16,9 @@ private:
 
 	static InputManager* Instance;
 	InputManager(){};
+	EventManager* InputEvent;
+
+	std::map<char*, char*> BindMap;
 
 public:
 	bool done;
