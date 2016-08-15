@@ -40,14 +40,22 @@ int InputManager::Init(ALLEGRO_EVENT_QUEUE *event_queue)
 		xml_node<> * BindingListRootNode = BindingList.first_node("Binding");
 		for (xml_node<> * BindingListNode = BindingListRootNode->first_node("Bind"); BindingListNode; BindingListNode = BindingListNode->next_sibling())
 		{
-
+			const char* KeyName = BindingListNode->first_attribute("BindButton")->value();
+			for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
+			{
+				const char* alKeyName = al_keycode_to_name(i);
+				if (alKeyName != nullptr )
+				{
+					if (strcmp(alKeyName,KeyName) == 0)
+					{
+						char* BindAction = strdup(BindingListNode->first_attribute("BindAction")->value());
+						InputEvent->RegisterEvent(BindAction);
+						KeyMap.insert(std::pair<int, char*>(i, BindAction));
+					}
+				}
+			}
 		}
 	}
-
-	//InputEvent->RegisterEvent("MoveRight");
-	//InputEvent->RegisterEvent("MoveLeft");
-	//InputEvent->RegisterEvent("Move");
-	//InputEvent->RegisterEvent("Back");
 
 	return 0;
 }

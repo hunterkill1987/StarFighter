@@ -1,6 +1,9 @@
 #include <allegro5\allegro.h>
+#include <allegro5\keycodes.h>
+#include <map>
 #include "rapidxml\rapidxml.hpp"
 #include "EventManager.h"
+
 #pragma once
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
@@ -18,7 +21,7 @@ private:
 	InputManager(){};
 	EventManager* InputEvent;
 
-	std::map<char*, char*> BindMap;
+	std::map<int , char*> KeyMap;
 
 public:
 	bool done;
