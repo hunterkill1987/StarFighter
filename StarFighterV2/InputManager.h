@@ -1,6 +1,6 @@
 #include <allegro5\allegro.h>
 #include <allegro5\keycodes.h>
-#include <map>
+#include <vector>
 #include "rapidxml\rapidxml.hpp"
 #include "EventManager.h"
 
@@ -10,6 +10,20 @@
 
 using namespace rapidxml;
 using namespace std;
+
+enum EButtonState
+{
+	EB_Pressed,				
+	EB_Released,
+	EB_Hold,
+};
+
+struct SButtonBind
+{
+	int		Button;
+	char*	EvnetBind;
+	EButtonState State;
+};
 
 class InputManager
 {
@@ -21,7 +35,7 @@ private:
 	InputManager(){};
 	EventManager* InputEvent;
 
-	std::map<int , char*> KeyMap;
+	std::vector<SButtonBind> KeyMap;
 
 public:
 	bool done;
@@ -33,13 +47,6 @@ public:
 	int Init(ALLEGRO_EVENT_QUEUE *event_queue);
 
 	virtual int UpdateInput();
-
-	virtual void KeyPressed(ALLEGRO_EVENT& Event,int& KeyCode);
-
-	virtual void KeyReleased(ALLEGRO_EVENT& Event, int& KeyCode);
-
-	virtual void KeyDown(ALLEGRO_EVENT& Event, int& KeyCode);
-
 };
 #endif
 

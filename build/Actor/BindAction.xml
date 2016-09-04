@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Binding>
-   <Bind BindButton = "UP" 		BindAction = "OnMove" ></Bind>
-   <Bind BindButton = "DOWN" 	BindAction = "OnBack" ></Bind>
-   <Bind BindButton = "RIGHT" 	BindAction = "OnMoveLeft" ></Bind>
-   <Bind BindButton = "LEFT" 	BindAction = "OnMoveRigth" ></Bind>
-   <Bind BindButton = "SPACE" 	BindAction = "OnStartFire" ></Bind>
+   <Bind BindButton = "UP" 	BindState = "Pressed" BindAction = "OnMove" ></Bind>
+   <Bind BindButton = "DOWN" 	BindState = "Pressed" BindAction = "OnBack" ></Bind>
+   <Bind BindButton = "RIGHT" 	BindState = "Pressed" BindAction = "OnMoveLeft" ></Bind>
+   <Bind BindButton = "LEFT" 	BindState = "Released" BindAction = "OnMoveRigth" ></Bind>
+   <Bind BindButton = "SPACE" 	BindState = "Hold" BindAction = "OnStartFire" ></Bind>
 </Binding>

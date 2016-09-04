@@ -48,9 +48,33 @@ int InputManager::Init(ALLEGRO_EVENT_QUEUE *event_queue)
 				{
 					if (strcmp(alKeyName,KeyName) == 0)
 					{
+						SButtonBind Bind;
 						char* BindAction = strdup(BindingListNode->first_attribute("BindAction")->value());
+
 						InputEvent->RegisterEvent(BindAction);
-						KeyMap.insert(std::pair<int, char*>(i, BindAction));
+						
+						Bind.Button = i;
+						Bind.EvnetBind = BindAction;
+						
+						char* BindState = strdup(BindingListNode->first_attribute("BindState")->value());
+
+						if (strcmp(BindState, "Pressed") == 0 )
+						{
+							Bind.State = EButtonState::EB_Pressed;
+						}
+
+						if (strcmp(BindState, "Hold") == 0)
+						{
+							Bind.State = EButtonState::EB_Hold;
+						}
+
+						if (strcmp(BindState, "Released")== 0)
+						{
+							Bind.State = EButtonState::EB_Released;
+						}
+
+						KeyMap.push_back(Bind);
+						//KeyMap.insert(std::pair<int, char*>(i, BindAction));
 					}
 				}
 			}
@@ -60,22 +84,6 @@ int InputManager::Init(ALLEGRO_EVENT_QUEUE *event_queue)
 	return 0;
 }
 
-void InputManager::KeyPressed(ALLEGRO_EVENT &Event,int &KeyCode)
-{
-	//InputEvent->FireEvent("Move");
-}
-
-void InputManager::KeyReleased(ALLEGRO_EVENT &Event, int &KeyCode)
-{
-	//fprintf(stderr, "Init KeyReleased \n");
-}
-
-void InputManager::KeyDown(ALLEGRO_EVENT &Event, int &KeyCode)
-{
-	//InputEvent->FireEvent("Move");
-}
-
-
 int InputManager::UpdateInput()
 {
 	ALLEGRO_KEYBOARD_STATE	key_state;
@@ -83,21 +91,32 @@ int InputManager::UpdateInput()
 	al_wait_for_event(Input_queue, &events);
 	al_get_keyboard_state(&key_state);
 
-	if(events.type == ALLEGRO_EVENT_KEY_DOWN)
+	for (SButtonBind Bind : KeyMap)
 	{
-		KeyPressed(events, events.keyboard.keycode);
-	}
+		if (Bind.Button == events.keyboard.keycode)
+		{
+			if (Bind.State == EButtonState::EB_Pressed)
+			{
+				if (events.type == ALLEGRO_EVENT_KEY_DOWN)
+				{
+					InputEvent->FireEvent(Bind.EvnetBind);
+				}
+			}
 
-	if (events.type ==ALLEGRO_EVENT_KEY_UP)
-	{
-		KeyReleased(events,events.keyboard.keycode);
-	}
+			if (Bind.State == EButtonState::EB_Released)
+			{
+				if (events.type == ALLEGRO_EVENT_KEY_UP)
+				{
+					InputEvent->FireEvent(Bind.EvnetBind);
+				}
+			}
 
-	if (al_key_down(&key_state, events.keyboard.keycode))
-	{
-		KeyDown(events, events.keyboard.keycode);
+			if (Bind.State == EButtonState::EB_Hold)
+			{
+				InputEvent->FireEvent(Bind.EvnetBind);
+			}
+		}
 	}
-
 	return 0;
 }
 

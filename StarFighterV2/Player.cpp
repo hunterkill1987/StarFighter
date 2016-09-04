@@ -21,6 +21,7 @@ void Player::Update(float deltaTime)
 
 void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 {
+	/*
 	Vector2 rotation = this->GetRotation();
 	Vector2 velocity = this->GetVelocity();
 
@@ -69,16 +70,17 @@ void Player::HandleInput(IEvent* &Input, IEngine* &Engine)
 		SetVelocity(velocity);
 		SetPosition(newpos);
 	}
+	*/
 }
 void Player::Init(xml_document<> &ActorXml)
 {
 	Actor::Init(ActorXml);
 	if (pEngine != nullptr)
 	{
-		pEngine->GetEventManager()->Bind(this, &Player::MoveLeft, "MoveLeft");
-		pEngine->GetEventManager()->Bind(this, &Player::MoveRight, "MoveRight");
-		pEngine->GetEventManager()->Bind(this, &Player::Move, "Move");
-		pEngine->GetEventManager()->Bind(this, &Player::Back, "Back");
+		pEngine->GetEventManager()->Bind(this, &Player::MoveLeft, "OnMoveLeft");
+		pEngine->GetEventManager()->Bind(this, &Player::MoveRight, "OnMoveRigth");
+		pEngine->GetEventManager()->Bind(this, &Player::Move, "OnMove");
+		pEngine->GetEventManager()->Bind(this, &Player::Back, "OnBack");
 	}
 
 	Actor::Init(ActorXml);
@@ -86,23 +88,23 @@ void Player::Init(xml_document<> &ActorXml)
 
 void Player::MoveLeft()
 {
-
+	fprintf(stderr, "Move Left\n");
 }
 
 void Player::MoveRight()
 {
-
+	fprintf(stderr, "Move Right\n");
 }
 
 
 void Player::Move()
 {
-	fprintf(stderr, "Move \n");
+	fprintf(stderr, "Move Forword\n");
 }
 
 void Player::Back()
 {
-
+	fprintf(stderr, "Move Back\n");
 }
 
 
