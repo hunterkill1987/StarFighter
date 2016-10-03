@@ -55,7 +55,7 @@ public:
 
 	virtual int Init();
 
-	virtual void UpdateEngine(float deltaTime);
+	virtual void UpdateEngine();
 
 	virtual void LoadAsset(IActor* Actor, char* asset);  
 

@@ -95,13 +95,17 @@ void Engine::LoadAsset(IActor* Actor, char* asset)
 	}
 }
 
-void Engine::UpdateEngine(float deltaTime)
+void Engine::UpdateEngine()
 {
 	World* wWorld = World::GetInstance();
 
+	OldTime = NewTime;
+	NewTime = al_get_time();
+	DeltaTime = NewTime - OldTime;
+
 	if (Event != nullptr && Input != nullptr)
 	{
-		Event->Update(deltaTime);
+		Event->Update(DeltaTime);
 		Input->UpdateInput();
 	}
 
@@ -120,9 +124,8 @@ void Engine::UpdateEngine(float deltaTime)
 }
 float Engine::GetDeltaTime()
 {
-	OldTime = NewTime;
-	NewTime = al_get_time();
-	return DeltaTime = NewTime - OldTime;
+
+	return DeltaTime;
 }
 
 

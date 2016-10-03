@@ -89,22 +89,47 @@ void Player::Init(xml_document<> &ActorXml)
 void Player::MoveLeft()
 {
 	fprintf(stderr, "Move Left\n");
+	Vector2 rotation = this->GetRotation();
+	Vector2 velocity = this->GetVelocity();
+	Angle += pEngine->GetDeltaTime() * 3.14f;
+	if (Angle > 3.14f) Angle -= 3.14 * 2.f;
+	rotation = Vector2(cosf(Angle), sinf(Angle));
+	SetRotation(rotation);
 }
 
 void Player::MoveRight()
 {
 	fprintf(stderr, "Move Right\n");
+	Vector2 rotation = this->GetRotation();
+	Vector2 velocity = this->GetVelocity();
+	Angle -= pEngine->GetDeltaTime() * 3.14f;
+	if (Angle < -3.14f) Angle += 3.14 * 2.f;
+	rotation = Vector2(cosf(Angle), sinf(Angle));
+	SetRotation(rotation);
 }
 
 
 void Player::Move()
 {
-	fprintf(stderr, "Move Forword\n");
+	fprintf(stderr, "Move Forward\n");
+	Vector2 rotation = this->GetRotation();
+	Vector2 velocity = this->GetVelocity();
+	rotation = Vector2(GetRotation().GetX(), GetRotation().GetY());
+	velocity = velocity + rotation * 4 * pEngine->GetDeltaTime();
+	SetVelocity(velocity);
 }
 
 void Player::Back()
 {
 	fprintf(stderr, "Move Back\n");
+	Vector2 rotation = this->GetRotation();
+	Vector2 velocity = this->GetVelocity();
+
+	rotation = Vector2(-1 * GetRotation().GetX(), -1 * GetRotation().GetY());
+	velocity = velocity + rotation * 4 * pEngine->GetDeltaTime();
+
+	SetVelocity(velocity);
+	
 }
 
 

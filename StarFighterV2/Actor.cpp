@@ -66,6 +66,12 @@ void Actor::SetUID(long long int NewUID)
 void Actor::Update(float fTime)
 {
 	Time = fTime;
+
+	Vector2 newpos = GetPosition();
+	Vector2 velocity = GetVelocity();
+	newpos = newpos + velocity;
+
+	SetPosition(newpos);
 }
 
 void Actor::MoveActor()

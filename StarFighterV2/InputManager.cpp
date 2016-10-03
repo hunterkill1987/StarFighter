@@ -95,20 +95,14 @@ int InputManager::UpdateInput()
 	{
 		if (Bind.Button == events.keyboard.keycode)
 		{
-			if (Bind.State == EButtonState::EB_Pressed)
+			if (Bind.State == EButtonState::EB_Pressed && events.type == ALLEGRO_EVENT_KEY_DOWN)
 			{
-				if (events.type == ALLEGRO_EVENT_KEY_DOWN)
-				{
-					InputEvent->FireEvent(Bind.EvnetBind);
-				}
+				InputEvent->FireEvent(Bind.EvnetBind);
 			}
 
-			if (Bind.State == EButtonState::EB_Released)
+			if (Bind.State == EButtonState::EB_Released && events.type == ALLEGRO_EVENT_KEY_UP)
 			{
-				if (events.type == ALLEGRO_EVENT_KEY_UP)
-				{
-					InputEvent->FireEvent(Bind.EvnetBind);
-				}
+				InputEvent->FireEvent(Bind.EvnetBind);
 			}
 
 			if (Bind.State == EButtonState::EB_Hold)

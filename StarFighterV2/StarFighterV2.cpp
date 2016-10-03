@@ -29,25 +29,20 @@ int main(int argc, char *argv[])
 			return -1;
 		}
 
-		float oldTime = 0.0;
-		float newTime = 0.0;
 		bool redraw = false;
 		while(!g_engine->Running())
 		{
-			oldTime = newTime;
-			newTime = al_get_time();
-			float deltaTime = newTime - oldTime;
 		
 			if( !redraw)
 			{ 
-				World->Update(deltaTime);
+				World->Update(g_engine->GetDeltaTime());
 				redraw = true;
 			}
 
 			if(redraw )
 			{
 				redraw = false;
-				g_engine->UpdateEngine(deltaTime);	
+				g_engine->UpdateEngine();	
 			}
 		}
 	}
