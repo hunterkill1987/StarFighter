@@ -93,7 +93,7 @@ int InputManager::UpdateInput()
 
 	for (SButtonBind Bind : KeyMap)
 	{
-		if (Bind.Button == events.keyboard.keycode)
+		if (al_key_down(&key_state,Bind.Button))
 		{
 			if (Bind.State == EButtonState::EB_Pressed && events.type == ALLEGRO_EVENT_KEY_DOWN)
 			{
