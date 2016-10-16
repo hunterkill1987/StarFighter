@@ -41,6 +41,7 @@ public:
 	void MoveRight();
 	void Move();
 	void Back();
+	void TestTimer();
 };
 
 #endif

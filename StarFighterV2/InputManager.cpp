@@ -51,7 +51,7 @@ int InputManager::Init(ALLEGRO_EVENT_QUEUE *event_queue)
 						SButtonBind Bind;
 						char* BindAction = strdup(BindingListNode->first_attribute("BindAction")->value());
 
-						InputEvent->RegisterEvent(BindAction);
+						//InputEvent->RegisterEvent(BindAction);
 						
 						Bind.Button = i;
 						Bind.EvnetBind = BindAction;

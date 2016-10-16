@@ -1,6 +1,7 @@
 #pragma once
 #ifndef EVENTMANAGER_H
 #define EVENTMANAGER_H
+
 #include <allegro5\allegro.h>
 #include <utility>
 #include <vector>
@@ -69,12 +70,32 @@ private:
 	{
 		Event* Event;
 		char* name;
+		bool bLooped;
+
+		void SetLuncheTime(float Alfa)
+		{
+			AlfaTime = Alfa;
+			LuncheTime = al_get_time() + Alfa;
+		}
+
+		float GetTime()
+		{
+			return AlfaTime;
+		}
+
+	private: 
+		
+		float AlfaTime;
+		float LuncheTime = 0.f;
+	
 	};
 
 	ALLEGRO_EVENT_QUEUE		*event_queue;
 	ALLEGRO_TIMER			*timer;
 
 	std::vector<EventType> Events;
+
+	std::vector<EventType> Timers;
 
 	static EventManager* Instance;
 	EventManager() {}
@@ -83,21 +104,42 @@ public:
 	static EventManager* GetInstance();
 
 	void Init();
-
-	void RegisterEvent(char* Name);
+	 
+	template<typename TargetT>
+	bool SetTimer(TargetT* Object, void(TargetT::*method_t)(), float Alfa, bool bIsLooped)
+	{
+		if (Alfa != 0.f)
+		{
+			EventType e;
+			e.Event = new Event();
+			e.bLooped = bIsLooped;
+			e.Event->AddListener(Object, method_t);
+			e.name = nullptr;
+			e.SetLuncheTime(Alfa);
+			Timers.push_back(e);
+			return true;
+		}
+		return false;
+	}
 
 	template<typename TargetT>
 	bool Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name)
 	{
-		for (EventType Event : Events)
+		for (EventType CurrEvent : Events)
 		{
-			if (strcmp(Event.name, Name) == 0)
+			if (strcmp(CurrEvent.name, Name) == 0)
 			{
-				Event.Event->AddListener(Object, method_t);
-				return true;
+				return false;
 			}
 		}
-		return false;
+
+		EventType e;
+		e.Event = new Event();
+		e.name = Name;
+		e.Event->AddListener(Object, method_t);
+		Events.push_back(e);
+
+		return true;
 	}
 
 	void FireEvent(char* Name);

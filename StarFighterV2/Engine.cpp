@@ -102,7 +102,6 @@ void Engine::UpdateEngine()
 	OldTime = NewTime;
 	NewTime = al_get_time();
 	DeltaTime = NewTime - OldTime;
-
 	if (Event != nullptr && Input != nullptr)
 	{
 		Event->Update(DeltaTime);

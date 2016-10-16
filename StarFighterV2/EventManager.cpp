@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Engine.h"
 #include "EventManager.h"
 
 
@@ -30,32 +31,25 @@ void EventManager::Init()
 
 void EventManager::Update(float deltaTime)
 {
-
-}
-
-void EventManager::RegisterEvent(char* Name)
-{
-	for (EventType Event : Events)
+	for (EventType CurrTimer : Timers)
 	{
-		if (strcmp(Event.name, Name) == 0)
+		if (CurrTimer.GetTime() > 0.f)
 		{
-			return;
+			CurrTimer.Event->Execute();
 		}
 	}
-
-	EventType e;
-	e.Event = new Event();
-	e.name = Name;
-	Events.push_back(e);
 }
 
 void EventManager::FireEvent(char* Name)
 {
 	for (EventType Event : Events)
 	{
-		if (strcmp(Event.name, Name) == 0)
+		if (Event.name != nullptr)
 		{
-			Event.Event->Execute();
+			if (strcmp(Event.name, Name) == 0)
+			{
+				Event.Event->Execute();
+			}
 		}
 	}
 }
