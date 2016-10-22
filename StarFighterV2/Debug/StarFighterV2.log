@@ -1,10 +1,7 @@
-﻿Build started 2016-10-16 22:58:27.
-     1>Project "D:\Projects\StarFighterV2\StarFighterV2\StarFighterV2.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\Projects\StarFighterV2\StarFighterV2\allegro\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\StarFighterV2-Debug.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt EventManager.cpp
-         EventManager.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Projects\StarFighterV2\\build\StarFighterV2-Debug.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:D:\Projects\StarFighterV2\StarFighterV2\allegro\lib "allegro-5.0.10-monolith-md.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Projects\StarFighterV2\\build\StarFighterV2-Debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Projects\StarFighterV2\\build\StarFighterV2-Debug.lib" /MACHINE:X86 Debug\Actor.obj
+﻿Build started 2016-10-22 14:33:34.
+     1>Project "D:\StarFighter\StarFighterV2\StarFighterV2.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\StarFighter\\build\StarFighterV2-Debug.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:D:\StarFighter\\StarFighterV2\allegro\lib "allegro-5.0.10-monolith-md.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\StarFighter\\build\StarFighterV2-Debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\StarFighter\\build\StarFighterV2-Debug.lib" /MACHINE:X86 Debug\Actor.obj
          Debug\ActorFactory.obj
          Debug\ActorPool.obj
          Debug\Emiter.obj
@@ -18,9 +15,9 @@
          Debug\stdafx.obj
          Debug\Camera.obj
      1>Actor.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
-         StarFighterV2.vcxproj -> D:\Projects\StarFighterV2\\build\StarFighterV2-Debug.exe
-     1>Done Building Project "D:\Projects\StarFighterV2\StarFighterV2\StarFighterV2.vcxproj" (Build target(s)).
+         StarFighterV2.vcxproj -> D:\StarFighter\\build\StarFighterV2-Debug.exe
+     1>Done Building Project "D:\StarFighter\StarFighterV2\StarFighterV2.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.47
+Time Elapsed 00:00:00.52
