@@ -1,9 +1,12 @@
 #include "stdafx.h"
+#include "rapidxml\rapidxml.hpp"
 #include <math.h>
-#ifndef SMATH_H
-#define SMATH_H
+#ifndef MATH_H
+#define MATH_H
 
 #define PI 3.14
+#define EPSILON 0.005
+
 typedef struct Vector2
 {
 private:
@@ -103,16 +106,24 @@ public:
 	}
 }Vector2;
 
+using namespace rapidxml;
+using namespace std;
 
-template<typename T> T lerp(T a, T b, float DeltaTime)
+class Math
 {
-	T alpha = a * (1 - DeltaTime) + b * DeltaTime;
-	return alpha;
-}
 
-template<typename T>T clamp(T x, T min, T max)
-{
-	return x < min ? min : (x > max ? b : max);
-}
+public:
+	template<typename T> T Lerp(T a, T b, float DeltaTime)
+	{
+		T alpha = a * (1 - DeltaTime) + b * DeltaTime;
+		return alpha;
+	}
 
+	template<typename T>T Clamp(T x, T min, T max)
+	{
+		return x < min ? min : (x > max ? b : max);
+	}
+
+	static bool IsNear(float A, float B, float Epsilon = 0.005f);
+};
 #endif

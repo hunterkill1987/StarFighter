@@ -100,8 +100,7 @@ void Engine::UpdateEngine()
 	World* wWorld = World::GetInstance();
 
 	OldTime = NewTime;
-	NewTime = al_get_time();
-	DeltaTime = NewTime - OldTime;
+
 	if (Event != nullptr && Input != nullptr)
 	{
 		Event->Update(DeltaTime);
@@ -120,6 +119,9 @@ void Engine::UpdateEngine()
 	}
 
 	al_flip_display();
+	NewTime = al_get_time();
+
+	DeltaTime = NewTime - OldTime;
 }
 float Engine::GetDeltaTime()
 {

@@ -5,6 +5,7 @@
 #include <allegro5\allegro.h>
 #include <utility>
 #include <vector>
+#include "Math.h"
 #include <map>
 
 using namespace std;
@@ -70,32 +71,51 @@ private:
 	{
 		Event* Event;
 		char* name;
-		bool bLooped;
 
-		void SetLuncheTime(float Alfa)
-		{
-			AlfaTime = Alfa;
-			LuncheTime = al_get_time() + Alfa;
-		}
+	};
 
-		float GetTime()
-		{
-			return AlfaTime;
-		}
+	struct TimerType: public EventType
+	{
+		public:
+			void SetLuncheTime(float Alfa, bool bIsLooped)
+			{
+				AlfaTime = Alfa;
+				CurrnetAlfa = Alfa;
+				bLooped = bIsLooped;
+			}
 
-	private: 
-		
-		float AlfaTime;
-		float LuncheTime = 0.f;
-	
+			void SetCurrentTime(float Time)
+			{
+				CurrnetAlfa = Time;
+			}
+
+			float GetTime()
+			{
+				return AlfaTime;
+			}
+
+			float GetCurrentAlfa()
+			{
+				return CurrnetAlfa;
+			}
+
+			bool IsLooped()
+			{
+				return bLooped;
+			}
+		private: 
+			  
+			float AlfaTime = 0.f;
+			float CurrnetAlfa = 0.f;
+			bool bLooped = false;
 	};
 
 	ALLEGRO_EVENT_QUEUE		*event_queue;
 	ALLEGRO_TIMER			*timer;
 
-	std::vector<EventType> Events;
+	std::vector<EventType*> Events;
 
-	std::vector<EventType> Timers;
+	std::vector<TimerType*> Timers;
 
 	static EventManager* Instance;
 	EventManager() {}
@@ -110,12 +130,11 @@ public:
 	{
 		if (Alfa != 0.f)
 		{
-			EventType e;
-			e.Event = new Event();
-			e.bLooped = bIsLooped;
-			e.Event->AddListener(Object, method_t);
-			e.name = nullptr;
-			e.SetLuncheTime(Alfa);
+			TimerType* e = new TimerType();
+			e->Event = new Event();
+			e->Event->AddListener(Object, method_t);
+			e->name = nullptr;
+			e->SetLuncheTime(Alfa, bIsLooped);
 			Timers.push_back(e);
 			return true;
 		}
@@ -125,18 +144,18 @@ public:
 	template<typename TargetT>
 	bool Bind(TargetT* Object, void(TargetT::*method_t)(), char* Name)
 	{
-		for (EventType CurrEvent : Events)
+		for (EventType* CurrEvent : Events)
 		{
-			if (strcmp(CurrEvent.name, Name) == 0)
+			if (strcmp(CurrEvent->name, Name) == 0)
 			{
 				return false;
 			}
 		}
 
-		EventType e;
-		e.Event = new Event();
-		e.name = Name;
-		e.Event->AddListener(Object, method_t);
+		EventType* e = new EventType();
+		e->Event = new Event();
+		e->name = Name;
+		e->Event->AddListener(Object, method_t);
 		Events.push_back(e);
 
 		return true;

@@ -31,24 +31,37 @@ void EventManager::Init()
 
 void EventManager::Update(float deltaTime)
 {
-	for (EventType CurrTimer : Timers)
+	for (TimerType* CurrTimer : Timers)
 	{
-		if (CurrTimer.GetTime() > 0.f)
+		if (CurrTimer->GetTime() > 0.f)
 		{
-			CurrTimer.Event->Execute();
+			CurrTimer->SetCurrentTime(CurrTimer->GetCurrentAlfa() - deltaTime);
+			if (Math::IsNear(CurrTimer->GetCurrentAlfa(), 0.f, 0.01f))
+			{
+				fprintf(stderr, "print TestTimer %f %f %f\n", CurrTimer->GetCurrentAlfa(), CurrTimer->GetTime(), deltaTime);
+				CurrTimer->Event->Execute();
+			}
+
+			if (CurrTimer->GetCurrentAlfa() <= 0.f)
+			{
+				if (CurrTimer->IsLooped())
+				{
+					CurrTimer->SetLuncheTime(CurrTimer->GetTime(), CurrTimer->IsLooped());
+				}
+			} 
 		}
 	}
 }
 
 void EventManager::FireEvent(char* Name)
 {
-	for (EventType Event : Events)
+	for (EventType* Event : Events)
 	{
-		if (Event.name != nullptr)
+		if (Event->name != nullptr)
 		{
-			if (strcmp(Event.name, Name) == 0)
+			if (strcmp(Event->name, Name) == 0)
 			{
-				Event.Event->Execute();
+				Event->Event->Execute();
 			}
 		}
 	}

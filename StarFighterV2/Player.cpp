@@ -81,7 +81,7 @@ void Player::Init(xml_document<> &ActorXml)
 		pEngine->GetEventManager()->Bind(this, &Player::MoveRight, "OnMoveRigth");
 		pEngine->GetEventManager()->Bind(this, &Player::Move, "OnMove");
 		pEngine->GetEventManager()->Bind(this, &Player::Back, "OnBack");
-		pEngine->GetEventManager()->SetTimer(this, &Player::TestTimer, 0.4, true);
+		pEngine->GetEventManager()->SetTimer(this, &Player::TestTimer, 1.6, false);
 	}
 
 	Actor::Init(ActorXml);

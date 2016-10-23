@@ -3,7 +3,7 @@
 #include <allegro5\allegro_image.h>
 #include <math.h>
 #include "rapidxml\rapidxml.hpp"
-#include "SMath.h"
+#include "Math.h"
 #ifndef IACTOR_H
 #define IACTOR_H
 
